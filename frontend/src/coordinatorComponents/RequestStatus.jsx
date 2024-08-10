@@ -16,12 +16,19 @@ const RequestStatus = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [responses, setResponses] = useState([]);
   const [open, setOpen] = useState(false);
-  const [newResource, setNewResource] = useState({ type: "", quantity: "", location: "" });
+  const [newResource, setNewResource] = useState({
+    type: "",
+    quantity: "",
+    location: "",
+  });
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/request/getRequests");
+        const response = await axios.get(
+          "http://localhost:3000/request/getRequests"
+        );
+        console.log(response.data);
         setRequests(response.data);
       } catch (error) {
         console.error("Error fetching requests:", error);
@@ -33,9 +40,11 @@ const RequestStatus = () => {
 
   const handleViewResponses = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:3000/request/${id}/responses`);
+      const response = await axios.get(
+        `http://localhost:3000/request/${id}/responses`
+      );
       setResponses(response.data);
-      setSelectedRequest(id); 
+      setSelectedRequest(id);
       setOpen(true);
     } catch (error) {
       console.error("Error fetching request responses:", error);
@@ -48,43 +57,48 @@ const RequestStatus = () => {
     try {
       const token = localStorage.getItem("token");
       const resource = {
-        type: response.resource?.type, 
-        quantity: response.resource?.quantity, 
-        location: response.resource?.location, 
+        type: response.resource?.type,
+        quantity: response.resource?.quantity,
+        location: response.resource?.location,
       };
-      console.log(response)
-  
+      console.log(response);
+
       if (!resource.type || !resource.quantity || !resource.location) {
         console.error("Resource data is incomplete.");
         return;
       }
-  
-      await axios.post("http://localhost:3000/resource/createResource", resource, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      setNewResource({ type: "", quantity: "", location: "" }); 
+
+      await axios.post(
+        "http://localhost:3000/resource/createResource",
+        resource,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setNewResource({ type: "", quantity: "", location: "" });
     } catch (error) {
       console.error("Error creating resource:", error);
     }
   };
-  
 
   return (
     <Box>
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ color: "#000", fontWeight: "bold" }}
+        sx={{ color: "#444", fontWeight: "bold" }}
       >
         Request Status
       </Typography>
       <TableContainer component={Paper}>
         <Table aria-label="requests table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#000", "& th": { color: "#fff" } }}>
+            <TableRow
+              sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
+            >
               <TableCell>ID</TableCell>
               <TableCell>Type</TableCell>
               <TableCell>Quantity</TableCell>
@@ -99,10 +113,22 @@ const RequestStatus = () => {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{request.type}</TableCell>
                 <TableCell>{request.quantity}</TableCell>
-                <TableCell>{request.location}</TableCell>
+                <TableCell>
+                  <a style={{color: "black"}} 
+                    href={`https://www.google.com/maps/@?api=1&map_action=map&center=${request.location.lat},${request.location.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={console.log(request.location.lat, request.location.lng)}
+                  >
+                    Map
+                  </a>
+                </TableCell>
                 <TableCell>{request.status}</TableCell>
                 <TableCell>
-                  <IconButton aria-label="view responses" onClick={() => handleViewResponses(request._id)}>
+                  <IconButton
+                    aria-label="view responses"
+                    onClick={() => handleViewResponses(request._id)}
+                  >
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
@@ -115,16 +141,27 @@ const RequestStatus = () => {
       <Modal
         open={open}
         onClose={handleClose}
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        <Box sx={{ backgroundColor: "#fff", padding: 3, borderRadius: 2, width: '80%', maxHeight: '80%', overflow: 'auto' }}>
+        <Box
+          sx={{
+            backgroundColor: "#fff",
+            padding: 3,
+            borderRadius: 2,
+            width: "80%",
+            maxHeight: "80%",
+            overflow: "auto",
+          }}
+        >
           <Typography variant="h6" gutterBottom>
             Responses for Request ID: {selectedRequest}
           </Typography>
           <TableContainer component={Paper}>
             <Table aria-label="responses table">
               <TableHead>
-                <TableRow sx={{ backgroundColor: "#000", "& th": { color: "#fff" } }}>
+                <TableRow
+                  sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
+                >
                   <TableCell>Response ID</TableCell>
                   <TableCell>Donor</TableCell>
                   <TableCell>Resource</TableCell>
@@ -153,7 +190,12 @@ const RequestStatus = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Button onClick={handleClose} variant="outlined" color="primary" sx={{ mt: 2 }}>
+          <Button
+            onClick={handleClose}
+            variant="outlined"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
             Close
           </Button>
         </Box>

@@ -48,7 +48,7 @@ const Helpers = () => {
       <Typography
         variant="h4"
         gutterBottom
-        style={{ color: "#000", fontWeight: "bold" }}
+        style={{ color: "#444", fontWeight: "bold" }}
       >
         Helpers Overview
       </Typography>
@@ -56,7 +56,7 @@ const Helpers = () => {
         <Table aria-label="helpers table">
           <TableHead>
             <TableRow
-              sx={{ backgroundColor: "#000", "& th": { color: "#fff" } }}
+              sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
             >
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>

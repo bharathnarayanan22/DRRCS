@@ -1,53 +1,3 @@
-// import React, { useState } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { sendRequest } from "../redux/requestSlice";
-
-// const Requests = () => {
-//   const dispatch = useDispatch();
-//   const [type, setType] = useState('');
-//   const [quantity, setQuantity] = useState(0);
-//   const [location, setLocation] = useState('');
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     dispatch(sendRequest({ type, quantity, location }));
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <label htmlFor="type">Type:</label>
-//       <input
-//         type="text"
-//         id="type"
-//         name="type"
-//         value={type}
-//         onChange={(event) => setType(event.target.value)}
-//       />
-
-//       <label htmlFor="quantity">Quantity:</label>
-//       <input
-//         type="number"
-//         id="quantity"
-//         name="quantity"
-//         value={quantity}
-//         onChange={(event) => setQuantity(event.target.value)}
-//       />
-
-//       <label htmlFor="location">Location:</label>
-//       <input
-//         type="text"
-//         id="location"
-//         name="location"
-//         value={location}
-//         onChange={(event) => setLocation(event.target.value)}
-//       />
-
-//       <button type="submit">Send Request</button>
-//     </form>
-//   );
-// };
-
-// export default Requests;
 import React, { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import axios from "axios";
@@ -126,11 +76,11 @@ const CreateRequest = () => {
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
         />
-        <Button variant="contained" onClick={getLocation} sx={{ backgroundColor: "#000", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
+        <Button variant="contained" onClick={getLocation} sx={{ backgroundColor: "#444", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
   Get My Location
 </Button>
         <MapPicker location={location} setLocation={setLocation} />
-        <Button type="submit" variant="contained" onClick={handleSubmit} sx={{ backgroundColor: "#000", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
+        <Button type="submit" variant="contained" onClick={handleSubmit} sx={{ backgroundColor: "#444", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
           Create Request
         </Button>
     </Box>

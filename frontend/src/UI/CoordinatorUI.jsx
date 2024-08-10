@@ -108,7 +108,6 @@ export default function CoordinatorDashboard() {
 
     const handleMenuItemClick = (view) => {
         setSelectedView(view);
-        setOpen(false);
     };
 
     const handleHomeClick = () => {
@@ -156,7 +155,7 @@ export default function CoordinatorDashboard() {
                             <IconButton
                                 onClick={handleDrawerClose}
                                 color="inherit"
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ChevronLeftIcon />
                             </IconButton>
@@ -165,43 +164,43 @@ export default function CoordinatorDashboard() {
                         <StyledList>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("View Helpers")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="View Helpers" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("View Tasks")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="View Tasks" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Create Tasks")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="Create Tasks" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("View Resources")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="View Resources" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Send Requests")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="Send Requests" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Responses")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="Responses" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Become a Co")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="Become a Co" />
                             </ListItemButton>
@@ -211,7 +210,7 @@ export default function CoordinatorDashboard() {
                         <Divider />
                         <ListItemButton
                             onClick={handleHomeClick}
-                            sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                            sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                         >
                             <StyledListItemIcon>
                                 <ExitToAppIcon />

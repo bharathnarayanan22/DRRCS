@@ -13,69 +13,89 @@ import { Typography, Box } from "@mui/material";
 import axios from "axios";
 
 const Resources = () => {
-    const [resources, setResources] = useState([]);
+  const [resources, setResources] = useState([]);
 
-    useEffect(() => {
-        const fetchResources = async () => {
-            try {
-                const response = await axios.get("http://localhost:3000/resource/getResource", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                });
-                setResources(response.data);
-            } catch (error) {
-                console.error("Error fetching resources:", error);
-            }
-        };
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/resource/getResource",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setResources(response.data);
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+      }
+    };
 
-        fetchResources();
-    }, []);
+    fetchResources();
+  }, []);
 
-    return (
-        <Box>
-            <Typography
-                variant="h4"
-                gutterBottom
-                style={{ color: "#000", fontWeight: "bold" }}
+  return (
+    <Box>
+      <Typography
+        variant="h4"
+        gutterBottom
+        style={{ color: "#444", fontWeight: "bold" }}
+      >
+        Resources Overview
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table aria-label="resources table">
+          <TableHead>
+            <TableRow
+              sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
             >
-                Resources Overview
-            </Typography>
-            <TableContainer component={Paper}>
-                <Table aria-label="resources table">
-                    <TableHead>
-                        <TableRow sx={{ backgroundColor: "#000", "& th": { color: "#fff" } }}>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Quantity</TableCell>
-                            <TableCell>Location</TableCell>
-                            <TableCell>Donor Name</TableCell>
-                            <TableCell>Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {resources.map((resource, index) => (
-                            <TableRow key={resource._id}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{resource.type}</TableCell>
-                                <TableCell>{resource.quantity}</TableCell>
-                                <TableCell>{resource.location}</TableCell>
-                                <TableCell>{resource.donor.name}</TableCell>
-                                <TableCell>
-                                    <IconButton aria-label="edit" onClick={() => handleEdit(resource._id)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => handleDelete(resource._id)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Box>
-    );
+              <TableCell>ID</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Donor Name</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {resources.map((resource, index) => (
+              <TableRow key={resource._id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{resource.type}</TableCell>
+                <TableCell>{resource.quantity}</TableCell>
+                <TableCell>
+                  <a
+                    style={{ color: "black" }}
+                    href={`https://www.google.com/maps/@?api=1&map_action=map&center=${resource.location.lat},${resource.location.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Map
+                  </a>
+                </TableCell>
+                <TableCell>{resource.donor.name}</TableCell>
+                <TableCell>
+                  <IconButton
+                    aria-label="edit"
+                    onClick={() => handleEdit(resource._id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleDelete(resource._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
 };
 
 export default Resources;

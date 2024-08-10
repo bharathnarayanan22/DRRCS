@@ -78,10 +78,10 @@ const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#000",
+            main: "#444",
         },
         secondary: {
-            main: "#000",
+            main: "#444",
         },
     },
 });
@@ -102,7 +102,6 @@ export default function CoordinatorDashboard() {
 
     const handleMenuItemClick = (view) => {
         setSelectedView(view);
-        setOpen(false);
     };
 
     const handleHomeClick = () => {
@@ -147,7 +146,7 @@ export default function CoordinatorDashboard() {
                             <IconButton
                                 onClick={handleDrawerClose}
                                 color="inherit"
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ChevronLeftIcon />
                             </IconButton>
@@ -156,19 +155,19 @@ export default function CoordinatorDashboard() {
                         <StyledList>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("View Requests")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="View Requests" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Add Resources")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="Add Resources" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Change your Role")}
-                                sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
                                 <ListItemText primary="Change your Role" />
                             </ListItemButton>
@@ -179,7 +178,7 @@ export default function CoordinatorDashboard() {
                         <Divider />
                         <ListItemButton
                             onClick={handleHomeClick}
-                            sx={{ "&:hover": { backgroundColor: "#000", color: "white" } }}
+                            sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                         >
                             <StyledListItemIcon>
                                 <ExitToAppIcon />
