@@ -83,10 +83,10 @@ const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#000",
+            main: "#444",
         },
         secondary: {
-            main: "#000",
+            main: "#444",
         },
     },
 });

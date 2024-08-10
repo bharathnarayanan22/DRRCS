@@ -9,7 +9,7 @@ const HomePage = () => {
   const token = useSelector((state) => state.user.token);
 
   const handleButtonClick = () => {
-    if (token) {
+    if (localStorage.getItem('token')) {
       navigate("/dashboard");
     } else {
       navigate("/register");

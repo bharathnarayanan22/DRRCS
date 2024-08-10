@@ -52,15 +52,17 @@ import React, { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import MapPicker from "../components/MapPicker";
 
 const CreateRequest = () => {
   const [type, setType] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [location, setLocation] = useState("");
-  const token = useSelector((state) => state.user.token)
+  const [location, setLocation] = useState(null);
+  const token = useSelector((state) => state.user.token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const handleGetCurrentLocation = getLocation;
     
     try {
       const response = await axios.post(
@@ -68,7 +70,10 @@ const CreateRequest = () => {
         {
           type,
           quantity,
-          location
+          location: {
+            lat: location.lat,
+            lng: location.lng
+          }
         },
         {
           headers: {
@@ -80,6 +85,19 @@ const CreateRequest = () => {
       // Optionally clear the form or handle success
     } catch (error) {
       console.error("Error creating request:", error);
+    }
+  };
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
     }
   };
 
@@ -108,14 +126,10 @@ const CreateRequest = () => {
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
         />
-        <TextField
-          label="Location"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+        <Button variant="contained" onClick={getLocation} sx={{ backgroundColor: "#000", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
+  Get My Location
+</Button>
+        <MapPicker location={location} setLocation={setLocation} />
         <Button type="submit" variant="contained" onClick={handleSubmit} sx={{ backgroundColor: "#000", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
           Create Request
         </Button>

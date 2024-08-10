@@ -3,6 +3,7 @@ import { TextField, Button, Typography, Box } from "@mui/material";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import axios from "axios";
 import { useSelector } from "react-redux";
+import MapPicker from "../components/MapPicker";
 
 const theme = createTheme({
   palette: {
@@ -25,6 +26,7 @@ const CreateTask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(startLocation, endLocation)
     
     try {
       // const token = localStorage.getItem("token"); 
@@ -76,7 +78,7 @@ const CreateTask = () => {
           value={volunteersNeeded}
           onChange={(e) => setVolunteersNeeded(e.target.value)}
         />
-        <TextField
+        {/* <TextField
           label="Start Location"
           variant="outlined"
           fullWidth
@@ -91,7 +93,15 @@ const CreateTask = () => {
           margin="normal"
           value={endLocation}
           onChange={(e) => setEndLocation(e.target.value)}
-        />
+        /> */}
+        <Typography variant="h6" gutterBottom sx={{ color: "#000", fontWeight: "bold" }}>
+          Start Location
+        </Typography>
+        <MapPicker setLocation={setStartLocation} location={startLocation} />
+        <Typography variant="h6" gutterBottom sx={{ color: "#000", fontWeight: "bold", mt: 2 }}>
+          End Location
+        </Typography>
+        <MapPicker setLocation={setEndLocation} location={endLocation} />
         <Button type="submit" variant="contained" onClick={handleSubmit}sx={{ backgroundColor: "#000", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
           Create Task
         </Button>

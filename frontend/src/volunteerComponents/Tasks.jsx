@@ -151,7 +151,8 @@ const Tasks = () => {
       <TableContainer component={Paper}>
         <Table aria-label="tasks table">
           <TableHead>
-            <TableRow>
+            <TableRow
+             sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}>
               <TableCell>ID</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Volunteers Needed</TableCell>
