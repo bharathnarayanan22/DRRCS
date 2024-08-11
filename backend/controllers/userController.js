@@ -122,4 +122,23 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getVolunteers, getDonors, getVolunteersAndDonors, getUserRole, getUserProfile };
+const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Find the user by ID and delete
+    const user = await User.findByIdAndDelete(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+module.exports = { register, login, getVolunteers, getDonors, getVolunteersAndDonors, getUserRole, getUserProfile, deleteUser };

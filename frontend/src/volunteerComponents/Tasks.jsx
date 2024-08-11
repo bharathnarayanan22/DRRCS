@@ -168,8 +168,22 @@ const Tasks = () => {
                 <TableCell>{task._id}</TableCell>
                 <TableCell>{task.description}</TableCell>
                 <TableCell>{task.volunteersNeeded}</TableCell>
-                <TableCell>{task.startLocation}</TableCell>
-                <TableCell>{task.endLocation}</TableCell>
+                <TableCell><a
+                    style={{ color: "black" }}
+                    href={`https://www.google.com/maps/@?api=1&map_action=map&center=${task.startLocation.lat},${task.startLocation.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Map
+                  </a></TableCell>
+                <TableCell><a
+                    style={{ color: "black" }}
+                    href={`https://www.google.com/maps/@?api=1&map_action=map&center=${task.endLocation.lat},${task.endLocation.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Map
+                  </a></TableCell>
                 <TableCell>{task.status}</TableCell>
                 <TableCell>
                   <Button

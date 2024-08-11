@@ -43,6 +43,19 @@ const Helpers = () => {
     fetchHelpers();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/users/deleteUser/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setHelpers(helpers.filter((user) => user._id !== id));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
   return (
     <Box>
       <Typography
@@ -71,11 +84,15 @@ const Helpers = () => {
                 <TableCell>{volunteer.name}</TableCell>
                 <TableCell>Volunteer</TableCell>
                 <TableCell>
-                  <IconButton aria-label="edit">
+                  {/* <IconButton aria-label="edit">
                     <EditIcon />
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton aria-label="delete">
-                    <DeleteIcon />
+                    <DeleteIcon sx={{
+                      "&:hover": {
+                        color: "red",
+                      }, fontSize: 30
+                    }} onClick={() => handleDelete(volunteer._id)} />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -86,11 +103,15 @@ const Helpers = () => {
                 <TableCell>{donor.name}</TableCell>
                 <TableCell>Donor</TableCell>
                 <TableCell>
-                  <IconButton aria-label="edit">
+                  {/* <IconButton aria-label="edit">
                     <EditIcon />
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton aria-label="delete">
-                    <DeleteIcon />
+                    <DeleteIcon sx={{
+                      "&:hover": {
+                        color: "red",
+                      }, fontSize: 30
+                    }} onClick={() => handleDelete(donor._id)} />
                   </IconButton>
                 </TableCell>
               </TableRow>

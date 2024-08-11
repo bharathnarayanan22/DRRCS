@@ -8,10 +8,10 @@ const ChangeYourRole = () => {
   const [message, setMessage] = useState('');
   const token = useSelector((state) => state.user.token);
 
-  const changeToVolunteer = async () => {
+  const changeToDonor = async () => {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:3000/change-role/volunteer', {}, {
+      const response = await axios.post('http://localhost:3000/change-role/donor', {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,8 +47,8 @@ const ChangeYourRole = () => {
       </Typography>
 
       <Box mb={2}>
-        <Button variant="contained" color="primary" onClick={changeToVolunteer} disabled={loading}>
-          Change to Volunteer
+        <Button variant="contained" color="primary" onClick={changeToDonor} disabled={loading}>
+          Change to Donor
         </Button>
       </Box>
 

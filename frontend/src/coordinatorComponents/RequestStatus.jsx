@@ -1,25 +1,475 @@
+// import React, { useState, useEffect } from "react";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell from "@mui/material/TableCell";
+// import TableContainer from "@mui/material/TableContainer";
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+// import Paper from "@mui/material/Paper";
+// import IconButton from "@mui/material/IconButton";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
+// import { Typography, Box, Modal, Button, TextField } from "@mui/material";
+// import axios from "axios";
+
+// // const RequestStatus = () => {
+// //   const [requests, setRequests] = useState([]);
+// //   const [selectedRequest, setSelectedRequest] = useState(null);
+// //   const [responses, setResponses] = useState([]);
+// //   const [open, setOpen] = useState(false);
+// //   const [newResource, setNewResource] = useState({
+// //     type: "",
+// //     quantity: "",
+// //     location: "",
+// //   });
+
+// //   useEffect(() => {
+// //     const fetchRequests = async () => {
+// //       try {
+// //         const response = await axios.get(
+// //           "http://localhost:3000/request/getRequests"
+// //         );
+// //         console.log(response.data);
+// //         setRequests(response.data);
+// //       } catch (error) {
+// //         console.error("Error fetching requests:", error);
+// //       }
+// //     };
+
+// //     fetchRequests();
+// //   }, []);
+
+// //   const handleViewResponses = async (id) => {
+// //     try {
+// //       const response = await axios.get(
+// //         `http://localhost:3000/request/${id}/responses`
+// //       );
+// //       setResponses(response.data);
+// //       setSelectedRequest(id);
+// //       setOpen(true);
+// //     } catch (error) {
+// //       console.error("Error fetching request responses:", error);
+// //     }
+// //   };
+
+// //   const handleClose = () => setOpen(false);
+
+// //   const handleAddResource = async (response) => {
+// //     try {
+// //       const token = localStorage.getItem("token");
+// //       const resource = {
+// //         type: response.resource?.type,
+// //         quantity: response.resource?.quantity,
+// //         location: response.resource?.location,
+// //       };
+// //       console.log(response);
+
+// //       if (!resource.type || !resource.quantity || !resource.location) {
+// //         console.error("Resource data is incomplete.");
+// //         return;
+// //       }
+
+// //       await axios.post(
+// //         "http://localhost:3000/resource/createResource",
+// //         resource,
+// //         {
+// //           headers: {
+// //             Authorization: `Bearer ${token}`,
+// //           },
+// //         }
+// //       );
+
+// //       setNewResource({ type: "", quantity: "", location: "" });
+// //     } catch (error) {
+// //       console.error("Error creating resource:", error);
+// //     }
+// //   };
+
+// //   return (
+// //     <Box>
+// //       <Typography
+// //         variant="h4"
+// //         gutterBottom
+// //         sx={{ color: "#444", fontWeight: "bold" }}
+// //       >
+// //         Request Status
+// //       </Typography>
+// //       <TableContainer component={Paper}>
+// //         <Table aria-label="requests table">
+// //           <TableHead>
+// //             <TableRow
+// //               sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
+// //             >
+// //               <TableCell>ID</TableCell>
+// //               <TableCell>Type</TableCell>
+// //               <TableCell>Quantity</TableCell>
+// //               <TableCell>Location</TableCell>
+// //               <TableCell>Status</TableCell>
+// //               <TableCell>Responses</TableCell>
+// //             </TableRow>
+// //           </TableHead>
+// //           <TableBody>
+// //             {requests.map((request, index) => (
+// //               <TableRow key={request._id}>
+// //                 <TableCell>{index + 1}</TableCell>
+// //                 <TableCell>{request.type}</TableCell>
+// //                 <TableCell>{request.quantity}</TableCell>
+// //                 <TableCell>
+// //                   <a style={{color: "black"}} 
+// //                     href={`https://www.google.com/maps/@?api=1&map_action=map&center=${request.location.lat},${request.location.lng}`}
+// //                     target="_blank"
+// //                     rel="noopener noreferrer"
+// //                     onClick={console.log(request.location.lat, request.location.lng)}
+// //                   >
+// //                     Map
+// //                   </a>
+// //                 </TableCell>
+// //                 <TableCell>{request.status}</TableCell>
+// //                 <TableCell>
+// //                   <IconButton
+// //                     aria-label="view responses"
+// //                     onClick={() => handleViewResponses(request._id)}
+// //                   >
+// //                     <VisibilityIcon />
+// //                   </IconButton>
+// //                 </TableCell>
+// //               </TableRow>
+// //             ))}
+// //           </TableBody>
+// //         </Table>
+// //       </TableContainer>
+
+// //       <Modal
+// //         open={open}
+// //         onClose={handleClose}
+// //         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+// //       >
+// //         <Box
+// //           sx={{
+// //             backgroundColor: "#fff",
+// //             padding: 3,
+// //             borderRadius: 2,
+// //             width: "80%",
+// //             maxHeight: "80%",
+// //             overflow: "auto",
+// //           }}
+// //         >
+// //           <Typography variant="h6" gutterBottom>
+// //             Responses for Request ID: {selectedRequest}
+// //           </Typography>
+// //           <TableContainer component={Paper}>
+// //             <Table aria-label="responses table">
+// //               <TableHead>
+// //                 <TableRow
+// //                   sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
+// //                 >
+// //                   <TableCell>Response ID</TableCell>
+// //                   <TableCell>Donor</TableCell>
+// //                   <TableCell>Resource</TableCell>
+// //                   <TableCell>Message</TableCell>
+// //                   <TableCell>Actions</TableCell>
+// //                 </TableRow>
+// //               </TableHead>
+// //               <TableBody>
+// //                 {responses.map((response, index) => (
+// //                   <TableRow key={response._id}>
+// //                     <TableCell>{index + 1}</TableCell>
+// //                     <TableCell>{response.donor?.name || "N/A"}</TableCell>
+// //                     <TableCell>{response.resource?.type || "N/A"}</TableCell>
+// //                     <TableCell>{response.message}</TableCell>
+// //                     <TableCell>
+// //                       <Button
+// //                         onClick={() => handleAddResource(response)}
+// //                         variant="contained"
+// //                         color="primary"
+// //                       >
+// //                         Add Resource
+// //                       </Button>
+// //                     </TableCell>
+// //                   </TableRow>
+// //                 ))}
+// //               </TableBody>
+// //             </Table>
+// //           </TableContainer>
+// //           <Button
+// //             onClick={handleClose}
+// //             variant="outlined"
+// //             color="primary"
+// //             sx={{ mt: 2 }}
+// //           >
+// //             Close
+// //           </Button>
+// //         </Box>
+// //       </Modal>
+// //     </Box>
+// //   );
+// // };
+
+// // export default RequestStatus;
+
+// import { useNavigate } from "react-router-dom"; 
+
+// const RequestStatus = () => {
+//   const [requests, setRequests] = useState([]);
+//   const [selectedRequest, setSelectedRequest] = useState(null);
+//   const [responses, setResponses] = useState([]);
+//   const [open, setOpen] = useState(false);
+//   const [newResource, setNewResource] = useState({
+//     type: "",
+//     quantity: "",
+//     location: "",
+//   });
+
+//   const navigate = useNavigate(); 
+
+//   useEffect(() => {
+//     const fetchRequests = async () => {
+//       try {
+//         const response = await axios.get(
+//           "http://localhost:3000/request/getRequests"
+//         );
+//         console.log(response.data);
+//         setRequests(response.data);
+//       } catch (error) {
+//         console.error("Error fetching requests:", error);
+//       }
+//     };
+
+//     fetchRequests();
+//   }, []);
+
+//   const handleViewResponses = async (id) => {
+//     try {
+//       const response = await axios.get(
+//         `http://localhost:3000/request/${id}/responses`
+//       );
+//       setResponses(response.data);
+//       setSelectedRequest(id);
+//       setOpen(true);
+//     } catch (error) {
+//       console.error("Error fetching request responses:", error);
+//     }
+//   };
+
+//   const handleClose = () => setOpen(false);
+
+//   const handleAddResource = async (response) => {
+//     try {
+//       const token = localStorage.getItem("token");
+//       const resource = {
+//         type: response.resource?.type,
+//         quantity: response.resource?.quantity,
+//         location: response.resource?.location,
+//       };
+//       console.log(response);
+
+//       if (!resource.type || !resource.quantity || !resource.location) {
+//         console.error("Resource data is incomplete.");
+//         return;
+//       }
+
+//       await axios.post(
+//         "http://localhost:3000/resource/createResource",
+//         resource,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       );
+
+//       setNewResource({ type: "", quantity: "", location: "" });
+//     } catch (error) {
+//       console.error("Error creating resource:", error);
+//     }
+//   };
+
+//   const handleCreateTask = (response, request) => {
+//     navigate("/coordinator/createTask", {
+//       state: {
+//         startLocation: response.resource?.location,
+//         endLocation: request.location,
+//         type: "",
+//         volunteersNeeded: "",
+//       },
+//     });
+//   };
+
+//   return (
+//     <Box>
+//       <Typography
+//         variant="h4"
+//         gutterBottom
+//         sx={{ color: "#444", fontWeight: "bold" }}
+//       >
+//         Request Status
+//       </Typography>
+//       <TableContainer component={Paper}>
+//         <Table aria-label="requests table">
+//           <TableHead>
+//             <TableRow
+//               sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
+//             >
+//               <TableCell>ID</TableCell>
+//               <TableCell>Type</TableCell>
+//               <TableCell>Quantity</TableCell>
+//               <TableCell>Location</TableCell>
+//               <TableCell>Status</TableCell>
+//               <TableCell>Responses</TableCell>
+//             </TableRow>
+//           </TableHead>
+//           <TableBody>
+//             {requests.map((request, index) => (
+//               <TableRow key={request._id}>
+//                 <TableCell>{index + 1}</TableCell>
+//                 <TableCell>{request.type}</TableCell>
+//                 <TableCell>{request.quantity}</TableCell>
+//                 <TableCell>
+//                   <a
+//                     style={{ color: "black" }}
+//                     href={`https://www.google.com/maps/@?api=1&map_action=map&center=${request.location.lat},${request.location.lng}`}
+//                     target="_blank"
+//                     rel="noopener noreferrer"
+//                     onClick={console.log(
+//                       request.location.lat,
+//                       request.location.lng
+//                     )}
+//                   >
+//                     Map
+//                   </a>
+//                 </TableCell>
+//                 <TableCell>{request.status}</TableCell>
+//                 <TableCell>
+//                   <IconButton
+//                     aria-label="view responses"
+//                     onClick={() => handleViewResponses(request._id)}
+//                   >
+//                     <VisibilityIcon />
+//                   </IconButton>
+//                 </TableCell>
+//               </TableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+//       </TableContainer>
+
+//       <Modal
+//         open={open}
+//         onClose={handleClose}
+//         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+//       >
+//         <Box
+//           sx={{
+//             backgroundColor: "#fff",
+//             padding: 3,
+//             borderRadius: 2,
+//             width: "80%",
+//             maxHeight: "80%",
+//             overflow: "auto",
+//           }}
+//         >
+//           <Typography variant="h6" gutterBottom>
+//             Responses for Request ID: {selectedRequest}
+//           </Typography>
+//           <TableContainer component={Paper}>
+//             <Table aria-label="responses table">
+//               <TableHead>
+//                 <TableRow
+//                   sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
+//                 >
+//                   <TableCell>Response ID</TableCell>
+//                   <TableCell>Donor</TableCell>
+//                   <TableCell>Resource</TableCell>
+//                   <TableCell>Message</TableCell>
+//                   <TableCell>Actions</TableCell>
+//                 </TableRow>
+//               </TableHead>
+//               <TableBody>
+//                 {responses.map((response, index) => (
+//                   <TableRow key={response._id}>
+//                     <TableCell>{index + 1}</TableCell>
+//                     <TableCell>
+//                       {response.donor?.name || "N/A"}
+//                     </TableCell>
+//                     <TableCell>
+//                       {response.resource?.type || "N/A"}
+//                     </TableCell>
+//                     <TableCell>{response.message}</TableCell>
+//                     <TableCell>
+//                       <Button
+//                         onClick={() => handleAddResource(response)}
+//                         variant="contained"
+//                         color="primary"
+//                       >
+//                         Add Resource
+//                       </Button>
+//                       <Button
+//                         onClick={() =>
+//                           handleCreateTask(response, requests.find((r) => r._id === selectedRequest))
+//                         }
+//                         variant="contained"
+//                         color="secondary"
+//                         sx={{ ml: 1 }}
+//                       >
+//                         Create Task
+//                       </Button>
+//                     </TableCell>
+//                   </TableRow>
+//                 ))}
+//               </TableBody>
+//             </Table>
+//           </TableContainer>
+//           <Button
+//             onClick={handleClose}
+//             variant="outlined"
+//             color="primary"
+//             sx={{ mt: 2 }}
+//           >
+//             Close
+//           </Button>
+//         </Box>
+//       </Modal>
+//     </Box>
+//   );
+// };
+
+// export default RequestStatus;
+
+
 import React, { useState, useEffect } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
+import {
+  Box,
+  Typography,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  IconButton,
+  Button,
+  Modal,
+  TextField,
+} from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Typography, Box, Modal, Button, TextField } from "@mui/material";
 import axios from "axios";
 
 const RequestStatus = () => {
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [responses, setResponses] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [openResponsesModal, setOpenResponsesModal] = useState(false);
+  const [openCreateTaskModal, setOpenCreateTaskModal] = useState(false);
   const [newResource, setNewResource] = useState({
     type: "",
     quantity: "",
     location: "",
+  });
+  const [taskData, setTaskData] = useState({
+    description: "",
+    volunteersNeeded: "",
+    startLocation: "",
+    endLocation: "",
   });
 
   useEffect(() => {
@@ -28,7 +478,6 @@ const RequestStatus = () => {
         const response = await axios.get(
           "http://localhost:3000/request/getRequests"
         );
-        console.log(response.data);
         setRequests(response.data);
       } catch (error) {
         console.error("Error fetching requests:", error);
@@ -45,13 +494,13 @@ const RequestStatus = () => {
       );
       setResponses(response.data);
       setSelectedRequest(id);
-      setOpen(true);
+      setOpenResponsesModal(true);
     } catch (error) {
       console.error("Error fetching request responses:", error);
     }
   };
 
-  const handleClose = () => setOpen(false);
+  const handleCloseResponsesModal = () => setOpenResponsesModal(false);
 
   const handleAddResource = async (response) => {
     try {
@@ -61,7 +510,6 @@ const RequestStatus = () => {
         quantity: response.resource?.quantity,
         location: response.resource?.location,
       };
-      console.log(response);
 
       if (!resource.type || !resource.quantity || !resource.location) {
         console.error("Resource data is incomplete.");
@@ -82,6 +530,48 @@ const RequestStatus = () => {
     } catch (error) {
       console.error("Error creating resource:", error);
     }
+  };
+
+  const handleOpenCreateTaskModal = (response, request) => {
+    setTaskData({
+      type: "",
+      volunteersNeeded: "",
+      startLocation: response.resource?.location || "",
+      endLocation: request.location || "",
+    });
+    setOpenCreateTaskModal(true);
+  };
+
+  const handleCloseCreateTaskModal = () => {
+    setOpenCreateTaskModal(false);
+  };
+
+  const handleTaskInputChange = (e) => {
+    const { name, value } = e.target;
+    setTaskData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmitTask = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:3000/task/createTask",taskData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Task created:", response.data);
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
+    handleCloseCreateTaskModal(); 
   };
 
   return (
@@ -114,11 +604,11 @@ const RequestStatus = () => {
                 <TableCell>{request.type}</TableCell>
                 <TableCell>{request.quantity}</TableCell>
                 <TableCell>
-                  <a style={{color: "black"}} 
+                  <a
+                    style={{ color: "black" }}
                     href={`https://www.google.com/maps/@?api=1&map_action=map&center=${request.location.lat},${request.location.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={console.log(request.location.lat, request.location.lng)}
                   >
                     Map
                   </a>
@@ -138,9 +628,10 @@ const RequestStatus = () => {
         </Table>
       </TableContainer>
 
+      {/* Responses Modal */}
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openResponsesModal}
+        onClose={handleCloseResponsesModal}
         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
         <Box
@@ -184,6 +675,19 @@ const RequestStatus = () => {
                       >
                         Add Resource
                       </Button>
+                      <Button
+                        onClick={() =>
+                          handleOpenCreateTaskModal(
+                            response,
+                            requests.find((r) => r._id === selectedRequest)
+                          )
+                        }
+                        variant="contained"
+                        color="secondary"
+                        sx={{ ml: 1 }}
+                      >
+                        Create Task
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -191,13 +695,80 @@ const RequestStatus = () => {
             </Table>
           </TableContainer>
           <Button
-            onClick={handleClose}
+            onClick={handleCloseResponsesModal}
             variant="outlined"
             color="primary"
             sx={{ mt: 2 }}
           >
             Close
           </Button>
+        </Box>
+      </Modal>
+      <Modal
+        open={openCreateTaskModal}
+        onClose={handleCloseCreateTaskModal}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "#fff",
+            padding: 3,
+            borderRadius: 2,
+            width: "50%",
+            maxHeight: "80%",
+            overflow: "auto",
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            Create Task
+          </Typography>
+            <TextField
+              label="Type"
+              name="description"
+              value={taskData.description}
+              onChange={handleTaskInputChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+            type="number"
+              label="Volunteers Needed"
+              name="volunteersNeeded"
+              value={taskData.volunteersNeeded}
+              onChange={handleTaskInputChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Start Location"
+              name="startLocation"
+              value={taskData.startLocation}
+              onChange={handleTaskInputChange}
+              fullWidth
+              margin="normal"
+              disabled
+            />
+            <TextField
+              label="End Location"
+              name="endLocation"
+              value={taskData.endLocation}
+              onChange={handleTaskInputChange}
+              fullWidth
+              margin="normal"
+              disabled
+            />
+            <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
+              <Button
+                onClick={handleCloseCreateTaskModal}
+                variant="outlined"
+                color="primary"
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleSubmitTask} type="submit" variant="contained" color="primary">
+                Create Task
+              </Button>
+            </Box>
         </Box>
       </Modal>
     </Box>

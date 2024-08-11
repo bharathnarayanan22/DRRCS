@@ -35,6 +35,7 @@ const taskSchema = new mongoose.Schema({
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
   },
+  photos: [{ type: String }],
   createdAt: { type: Date, default: Date.now },
 });
 

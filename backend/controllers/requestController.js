@@ -1,5 +1,6 @@
 const Request = require('../models/requestModel');
 const Response = require('../models/responseModel');
+const User =require("../models/userModel")
 
 const createRequest = async (req, res) => {
   const { type, quantity, location } = req.body;
@@ -60,7 +61,6 @@ const respondToRequest = async (req, res) => {
       return res.status(404).json({ message: 'Request not found' });
     }
 
-    // Create a response with resource details
     const response = new Response({
       requestId,
       donor,
@@ -74,10 +74,21 @@ const respondToRequest = async (req, res) => {
 
     await response.save();
 
-    // Associate the response with the request
     request.responses.push(response._id);
-    request.status = 'accepted'; // Update the request status to 'accepted'
+    request.status = 'accepted'; 
     await request.save();
+
+    const user = await User.findById(donor);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.responses.includes(response._id)) {
+      return res.status(400).json({ message: 'Resource already associated with user' });
+    }
+
+    user.responses.push(response._id);
+    await user.save();
 
     res.json(response);
   } catch (err) {

@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import Tasks from "../volunteerComponents/Tasks";
 import List from "@mui/material/List";
 import MyTasks from "../volunteerComponents/MyTasks";
+import ChangeYourRole from "../volunteerComponents/ChangeYourRole";
 
 const drawerWidth = 240;
 
@@ -189,7 +190,7 @@ export default function CoordinatorDashboard() {
                     <DrawerHeader />
                     {selectedView === 'Available Tasks' && <Tasks />}
                     {selectedView === 'MyTasks' && <MyTasks/>}
-                    {selectedView === 'View Tasks' && <Tasks />}
+                    {selectedView === 'Change your Role' && <ChangeYourRole />}
                 </Main>
             </Box>
         </ThemeProvider>

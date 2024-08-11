@@ -20,6 +20,7 @@ import List from "@mui/material/List";
 import AddResources from "../donorComponents/AddResourses";
 import ViewRequests from "../donorComponents/ViewRequests";
 import ChangeYourRole from "../donorComponents/ChangeYourRole";
+import MyContributions from "../donorComponents/MyContributions";
 
 const drawerWidth = 240;
 
@@ -166,6 +167,12 @@ export default function CoordinatorDashboard() {
                                 <ListItemText primary="Add Resources" />
                             </ListItemButton>
                             <ListItemButton
+                                onClick={() => handleMenuItemClick("MyContributions")}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                            >
+                                <ListItemText primary="MyContributions" />
+                            </ListItemButton>
+                            <ListItemButton
                                 onClick={() => handleMenuItemClick("Change your Role")}
                                 sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
                             >
@@ -191,7 +198,8 @@ export default function CoordinatorDashboard() {
                     <DrawerHeader />
                     {selectedView === 'View Requests' && <ViewRequests />}
                     {selectedView === 'Add Resources' && <AddResources/>}
-                    {selectedView === 'View Tasks' && <ChangeYourRole />}
+                    {selectedView === 'MyContributions' && <MyContributions/>}
+                    {selectedView === 'Change your Role' && <ChangeYourRole />}
                 </Main>
             </Box>
         </ThemeProvider>

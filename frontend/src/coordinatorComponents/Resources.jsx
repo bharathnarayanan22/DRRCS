@@ -35,6 +35,19 @@ const Resources = () => {
     fetchResources();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/resource/deleteResource/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setResources(resources.filter((resource) => resource._id !== id));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
   return (
     <Box>
       <Typography

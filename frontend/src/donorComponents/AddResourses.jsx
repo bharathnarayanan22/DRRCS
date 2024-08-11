@@ -23,21 +23,34 @@ const AddResources = () => {
 
   const token = useSelector((state) => state.user.token);
 
-  const handleGetLocation = () => {
+  // const handleGetLocation = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         setLocation({
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         });
+  //       },
+  //       (error) => {
+  //         console.error("Error fetching location:", error);
+  //       }
+  //     );
+  //   } else {
+  //     alert("Geolocation is not supported by your browser.");
+  //   }
+  // };
+
+  const getLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error("Error fetching location:", error);
-        }
-      );
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      });
     } else {
-      alert("Geolocation is not supported by your browser.");
+      console.error("Geolocation is not supported by this browser.");
     }
   };
 
@@ -102,7 +115,7 @@ const AddResources = () => {
         <Box mb={2}>
           <Button
             variant="outlined"
-            onClick={handleGetLocation}
+            onClick={getLocation}
             sx={{
               backgroundColor: "#444",
               color: "#fff",
@@ -112,7 +125,7 @@ const AddResources = () => {
             Get My Location
           </Button>
         </Box>
-        <MapPicker setLocation={setLocation} location={location} />
+        <MapPicker location={location} setLocation={setLocation}/>
         <Button
           type="submit"
           variant="contained"

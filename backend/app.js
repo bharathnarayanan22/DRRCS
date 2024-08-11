@@ -8,6 +8,7 @@ const resourceRoutes = require('./routes/resourceRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const requestRoutes = require('./routes/requestRoutes');
 const responseRoutes = require('./routes/responseRoutes');
+const roleChangeRoutes = require('./routes/roleChangeRoutes')
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use('/resource', resourceRoutes);
 app.use('/task', taskRoutes);
 app.use('/request', requestRoutes);
 app.use('/response', responseRoutes);
+app.use('/',roleChangeRoutes)
 
 mongoose.connect(process.env.MONGODB_URL).then(() => {
   console.log('MongoDB connected');

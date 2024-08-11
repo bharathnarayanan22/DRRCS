@@ -21,56 +21,10 @@ exports.createTask = async (req, res) => {
   }
 };
 
-// exports.acceptTask = async (req, res) => {
-//   const { id } = req.params;
-//   const volunteerId = req.user._id;
-
-//   try {
-//     const task = await Task.findById(id);
-
-//     if (!task) {
-//       return res.status(404).json({ message: 'Task not found' });
-//     }
-
-//     const existingVolunteer = task.volunteers.find((volunteer) => volunteer.user.toString() === volunteerId.toString());
-
-//     if (existingVolunteer) {
-//       if (existingVolunteer.status === 'accepted') {
-//         return res.status(400).json({ message: 'You have already accepted this task' });
-//       } else if (existingVolunteer.status === 'declined') {
-//         return res.status(400).json({ message: 'You have already declined this task' });
-//       }
-//     }
-
-//     const acceptedVolunteers = task.volunteers.filter((volunteer) => volunteer.status === 'accepted');
-
-//     if (acceptedVolunteers.length >= task.volunteersNeeded) {
-//       return res.status(400).json({ message: 'Task already has enough volunteers' });
-//     }
-
-//     if (existingVolunteer) {
-//       existingVolunteer.status = 'accepted';
-//     } else {
-//       task.volunteers.push({ user: volunteerId, status: 'accepted' });
-//     }
-
-//     if (task.volunteers.filter((volunteer) => volunteer.status === 'accepted').length >= task.volunteersNeeded) {
-//       task.status = 'in-progress';
-//     }
-
-//     await task.save();
-
-//     res.json(task);
-//   } catch (err) {
-//     console.error('Error accepting task:', err.message);
-//     res.status(500).send('Server error');
-//   }
-// };
 
 exports.acceptTask = async (req, res) => {
-  const { id } = req.params;  // The ID of the task
-  const volunteerId = req.user._id;  // The ID of the volunteer (from the authenticated user)
-
+  const { id } = req.params;  
+  const volunteerId = req.user._id;  
   try {
 
     const task = await Task.findById(id);
@@ -122,10 +76,8 @@ exports.acceptTask = async (req, res) => {
       task.status = 'in-progress';  // Set the task status to 'in-progress'
     }
 
-    // Save the updated task
     await task.save();
 
-    // Respond with the updated task data
     res.json(task);
   } catch (err) {
     console.error('Error accepting task:', err.message);
@@ -292,4 +244,36 @@ exports.getAcceptedTasks = async (req, res) => {
 //     res.status(500).json({ message: 'Error fetching accepted tasks', error: error.message });
 //   }
 // };
+
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); 
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, Date.now() + ext);
+  }
+});
+
+exports.upload = multer({ storage });
+
+
+exports.uploadPhotos = async (req, res) => {
+  try {
+    const { taskId } = req.body;
+    const files = req.files;
+
+    const filePaths = files.map(file => file.path);
+
+    await Task.findByIdAndUpdate(taskId, { $set: { photos: filePaths, status: 'pending-verification' } });
+
+    res.status(200).send('Photos uploaded successfully');
+  } catch (error) {
+    console.error('Error uploading photos:', error);
+    res.status(500).send('Server error');
+  }
+};
 
