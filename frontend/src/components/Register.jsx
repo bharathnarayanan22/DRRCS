@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './slide.css';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../redux/userSlice';
+import { setToken, setUserName } from '../redux/userSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -64,10 +64,12 @@ const Register = () => {
       if (isSignUp) {
         setFormData({ ...formData, isSignUp: false });
       } else {
-        const { token, userId } = response.data;
+        const { token, userId, username } = response.data;
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
-        dispatch(setToken(token))
+        localStorage.setItem('username', username);
+        dispatch(setToken(token));
+        dispatch(setUserName(username));
         navigate('/dashboard');
       }
     } catch (error) {

@@ -243,37 +243,36 @@ exports.getAcceptedTasks = async (req, res) => {
 //   } catch (error) {
 //     res.status(500).json({ message: 'Error fetching accepted tasks', error: error.message });
 //   }
-// };
+// 
 
-const multer = require('multer');
+
 const path = require('path');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); 
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
-  }
-});
-
-exports.upload = multer({ storage });
-
-
 exports.uploadPhotos = async (req, res) => {
+    try {
+        const files = req.files.map(file => `/uploads/${file.filename}`); // Publicly accessible file paths
+        const { taskId } = req.body;
+
+        await Task.findByIdAndUpdate(taskId, { $set: { photos: files, status: 'pending-verification' } });
+
+        res.status(200).send('Photos uploaded successfully');
+    } catch (error) {
+        console.error('Error uploading photos:', error);
+        res.status(500).send('Server error');
+    }
+};
+
+exports.getPhoto = (req, res) => {
+    const filePath = path.join(__dirname, '../uploads', req.params.filename);
+    res.sendFile(filePath);
+};
+
+exports.getPendingVerificationTasks = async (req, res) => {
   try {
-    const { taskId } = req.body;
-    const files = req.files;
-
-    const filePaths = files.map(file => file.path);
-
-    await Task.findByIdAndUpdate(taskId, { $set: { photos: filePaths, status: 'pending-verification' } });
-
-    res.status(200).send('Photos uploaded successfully');
-  } catch (error) {
-    console.error('Error uploading photos:', error);
+    const tasks = await Task.find({ status: 'pending-verification' }).populate('coordinator', ['name', 'email']);
+    res.json(tasks);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send('Server error');
   }
 };
-
