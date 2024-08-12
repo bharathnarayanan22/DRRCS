@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Typography, Box } from "@mui/material";
-import axios from "axios";
+import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 
 const Helpers = () => {
@@ -62,6 +62,7 @@ const Helpers = () => {
         variant="h4"
         gutterBottom
         style={{ color: "#444", fontWeight: "bold" }}
+        sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900 }}
       >
         Helpers Overview
       </Typography>

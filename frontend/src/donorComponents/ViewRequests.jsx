@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Typography, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import axios from "axios";
+import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import MapPicker from "../components/MapPicker";
 
@@ -84,16 +84,24 @@ const ViewRequests = () => {
 
   return (
     <Box>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         View Requests
       </Typography>
       {requests.map((request) => (
         <Box key={request._id} mb={3} p={2} border={1} borderRadius={4}>
           <Typography variant="h6">{request.type}</Typography>
           <Typography>Quantity: {request.quantity}</Typography>
-          <Typography>
-            Location: ({request.location.lat}, {request.location.lng})
-          </Typography>
+          {/* <Typography>
+            Location:
+          </Typography> */}
+          <a
+                    style={{ color: "black" }}
+                    href={`https://www.google.com/maps/@?api=1&map_action=map&center=${request.location.lat},${request.location.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src="/src/assets/earth1.png" alt="Map"/>
+                  </a>
           <Typography>Status: {request.status}</Typography>
           <Button
             variant="contained"

@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Typography, Box } from "@mui/material";
-import axios from "axios";
+import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -77,14 +77,14 @@ const BecomeACo = () => {
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ color: "#000", fontWeight: "bold" }}
+        sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}
       >
         Become A Co Applications
       </Typography>
       <TableContainer component={Paper}>
         <Table aria-label="role change applications table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#000", "& th": { color: "#fff" } }}>
+            <TableRow sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}>
               <TableCell>Name</TableCell>
               <TableCell>Current Role</TableCell>
               <TableCell>Actions</TableCell>

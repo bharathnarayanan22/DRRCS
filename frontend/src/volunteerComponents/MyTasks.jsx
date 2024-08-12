@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../helpers/auth-config';
 import { Container, Typography, List, ListItem, ListItemText, Button, CircularProgress } from '@mui/material';
 import { styled } from '@mui/system';
 
@@ -60,15 +60,15 @@ const MyTasks = () => {
 
   return (
     <StyledContainer>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         My Tasks
       </Typography>
       {loading ? (
         <CircularProgress />
       ) : (
-        <List>
+        <List >
           {tasks.map(task => (
-            <StyledListItem key={task._id}>
+            <StyledListItem key={task._id} sx={{boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",boxShadow: "0 0 10px 0 rgba(6, 6, 6, 0.5)"}} >
               <ListItemText
                 primary={task.description}
                 secondary={`Status: ${task.status}`}

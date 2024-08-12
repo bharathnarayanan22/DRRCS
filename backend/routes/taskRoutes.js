@@ -6,7 +6,7 @@ const { createTask, getTasks, updateTask, updateTaskStatus, acceptTask, declineT
 Router.post('/createTask', auth(['coordinator']), createTask);
 Router.get('/getTask', getTasks);
 Router.put('/acceptTask/:id', auth(['volunteer']), acceptTask)
-Router.put('/updateTask/:id', auth, updateTask);
+Router.put('/updateTask/:id', auth(['volunteer', 'coordinator']), updateTask);
 Router.put('/updateTaskStatus/:id', auth(['volunteer']), updateTaskStatus);
 Router.delete('/deleteTask/:id', auth(['coordinator']), deleteTask);
 Router.put('/declineTask/:id', auth(['volunteer']), declineTask);

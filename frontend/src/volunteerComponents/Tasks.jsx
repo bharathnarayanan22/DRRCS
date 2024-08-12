@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from '../helpers/auth-config';
 import {
   Button,
   Typography,
@@ -145,7 +145,7 @@ const Tasks = () => {
 
   return (
     <Box>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         Pending Tasks
       </Typography>
       <TableContainer component={Paper}>
@@ -174,7 +174,7 @@ const Tasks = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Map
+                    <img src="/src/assets/earth1.png" alt="Map"/>
                   </a></TableCell>
                 <TableCell><a
                     style={{ color: "black" }}
@@ -182,7 +182,7 @@ const Tasks = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Map
+                    <img src="/src/assets/earth1.png" alt="Map"/>
                   </a></TableCell>
                 <TableCell>{task.status}</TableCell>
                 <TableCell>

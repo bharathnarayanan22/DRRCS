@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Container, Typography, Box, CircularProgress } from '@mui/material';
-import axios from 'axios';
+import axios from '../helpers/auth-config';
 import { useSelector } from 'react-redux';
 
 const ChangeYourRole = () => {

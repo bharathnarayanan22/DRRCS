@@ -61,7 +61,7 @@ const EditTask = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
           Enroll Party
         </Typography>
         <TextField

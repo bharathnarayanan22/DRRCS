@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
-import axios from 'axios';
+import axios from '../helpers/auth-config';
 
 const EditResource = ({ resource, onUpdate }) => {
   const [type, setType] = useState(resource.type);
@@ -39,7 +39,7 @@ const EditResource = ({ resource, onUpdate }) => {
 
   return (
     <Box mt={2}>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         Edit Resource
       </Typography>
       <TextField

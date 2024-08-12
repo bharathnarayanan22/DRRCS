@@ -25,6 +25,17 @@ import List from "@mui/material/List";
 import BecomeACo from "../coordinatorComponents/BecomeACo";
 import { useDispatch } from "react-redux";
 import { removeToken } from "../redux/userSlice";
+import PeopleIcon from "@mui/icons-material/People";
+import TaskIcon from "@mui/icons-material/Task";
+import AddTaskIcon from "@mui/icons-material/AddTask";
+import FolderIcon from "@mui/icons-material/Folder";
+import SendIcon from "@mui/icons-material/Send";
+import ReplyIcon from "@mui/icons-material/Reply";
+import BadgeIcon from "@mui/icons-material/Badge";
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import logo1 from "../assets/logo.png";
 
 const drawerWidth = 240;
 
@@ -111,14 +122,28 @@ export default function CoordinatorDashboard() {
     };
 
     const handleHomeClick = () => {
-            localStorage.removeItem('token');
-            dispatch(removeToken());
-            navigate('/register');
+        localStorage.removeItem('token');
+        dispatch(removeToken());
+        navigate('/register');
 
     };
 
     return (
         <ThemeProvider theme={theme}>
+            <div
+                style={{
+                    backgroundImage: `url(${logo1})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    opacity: 0.2,
+                    marginTop: '10%',
+                    height: '70%',
+                    width: '100%',
+                    position: 'absolute',
+                    zIndex: -1,
+                }}
+            />
             <Box sx={{ display: "flex", minHeight: "100vh" }}>
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
@@ -164,44 +189,65 @@ export default function CoordinatorDashboard() {
                         <StyledList>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("View Helpers")}
-                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                             >
+                                {/* <StyledListItemIcon> */}
+                                <PeopleIcon />
+                                {/* </StyledListItemIcon> */}
                                 <ListItemText primary="View Helpers" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("View Tasks")}
-                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                             >
+                                {/* <StyledListItemIcon> */}
+                                <TaskIcon />
+                                {/* </StyledListItemIcon> */}
                                 <ListItemText primary="View Tasks" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Create Tasks")}
-                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                             >
+                                {/* <StyledListItemIcon> */}
+                                <AddTaskIcon />
+                                {/* </StyledListItemIcon> */}
                                 <ListItemText primary="Create Tasks" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("View Resources")}
-                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                             >
+                                {/* <StyledListItemIcon> */}
+                                <FolderIcon />
+                                {/* </StyledListItemIcon> */}
                                 <ListItemText primary="View Resources" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Send Requests")}
-                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                             >
+                                {/* <StyledListItemIcon> */}
+                                <SendIcon />
+                                {/* </StyledListItemIcon> */}
                                 <ListItemText primary="Send Requests" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Responses")}
-                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                             >
+                                {/* <StyledListItemIcon> */}
+                                <ReplyIcon />
+                                {/* </StyledListItemIcon> */}
                                 <ListItemText primary="Responses" />
                             </ListItemButton>
                             <ListItemButton
                                 onClick={() => handleMenuItemClick("Become a Co")}
-                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                                sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                             >
+                                {/* <StyledListItemIcon> */}
+                                <BadgeIcon />
+                                {/* </StyledListItemIcon> */}
                                 <ListItemText primary="Become a Co" />
                             </ListItemButton>
                         </StyledList>
@@ -210,27 +256,86 @@ export default function CoordinatorDashboard() {
                         <Divider />
                         <ListItemButton
                             onClick={handleHomeClick}
-                            sx={{ "&:hover": { backgroundColor: "#444", color: "white" } }}
+                            sx={{ "&:hover": { backgroundColor: "#444", color: "white" }, gap: "32px" }}
                         >
-                            <StyledListItemIcon>
-                                <ExitToAppIcon />
-                            </StyledListItemIcon>
+                            {/* <StyledListItemIcon> */}
+                            <ExitToAppIcon />
+                            {/* </StyledListItemIcon> */}
                             <ListItemText primary="Log Out" />
                         </ListItemButton>
                     </Box>
                 </Drawer>
                 <Main open={open}>
                     <DrawerHeader />
+                    {selectedView === null && (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: 10, padding: 4 }}>
+                            <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("View Helpers")}>
+                                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <PeopleIcon sx={{ fontSize: 125, color: 'white' }} />
+                                    <Typography gutterBottom variant="body2" component="div" color="white" textAlign="center">
+                                        View Helpers
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("View Tasks")}>
+                                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <TaskIcon sx={{ fontSize: 125, color: 'white' }} />
+                                    <Typography gutterBottom variant="body2" component="div" color="white" textAlign="center">
+                                        View Tasks
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("Create Tasks")}>
+                                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <AddTaskIcon sx={{ fontSize: 125, color: 'white' }} />
+                                    <Typography gutterBottom variant="body2" component="div" color="white" textAlign="center">
+                                        Create Tasks
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("View Resources")}>
+                                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <FolderIcon sx={{ fontSize: 125, color: 'white' }} />
+                                    <Typography gutterBottom variant="body2" component="div" color="white" textAlign="center">
+                                        View Resources
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("Send Requests")}>
+                                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <SendIcon sx={{ fontSize: 125, color: 'white' }} />
+                                    <Typography gutterBottom variant="body2" component="div" color="white" textAlign="center">
+                                        Send Requests
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("Responses")}>
+                                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <ReplyIcon sx={{ fontSize: 125, color: 'white' }} />
+                                    <Typography gutterBottom variant="body2" component="div" color="white" textAlign="center">
+                                        Responses
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("Become a Co")}>
+                                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <BadgeIcon sx={{ fontSize: 125, color: 'white' }} />
+                                    <Typography gutterBottom variant="body2" component="div" color="white" textAlign="center">
+                                        Become A Co
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Box>
+                    )}
                     {selectedView === 'View Helpers' && <Helpers />}
                     {selectedView === 'View Tasks' && <Tasks />}
                     {selectedView === 'Create Tasks' && <CreateTask />}
                     {selectedView === 'View Resources' && <Resources />}
                     {selectedView === 'Send Requests' && <Requests />}
                     {selectedView === 'Responses' && <Responses />}
-                    {selectedView === 'Become a Co' && <BecomeACo/>}
+                    {selectedView === 'Become a Co' && <BecomeACo />}
                 </Main>
             </Box>
         </ThemeProvider>
     );
 }
-    

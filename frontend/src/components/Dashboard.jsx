@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CoordinatorUI from "../UI/CoordinatorUI";
 import VolunteerUI from "../UI/VolunteerUI";
 import DonorUI from "../UI/DonorUI";
-import axios from "axios";
+import axios from '../helpers/auth-config';
 
 const Dashboard = () => {
   const [userRole, setUserRole] = useState(null);

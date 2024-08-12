@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../helpers/auth-config';
 import { Container, Typography, List, ListItem, ListItemText, CircularProgress, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 
@@ -45,12 +45,12 @@ const MyContributions = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         My Contributions
       </Typography>
       
       <Box mb={4}>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom >
           My Resources
         </Typography>
         <List>

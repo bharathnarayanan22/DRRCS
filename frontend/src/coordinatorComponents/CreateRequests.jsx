@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
-import axios from "axios";
+import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import MapPicker from "../components/MapPicker";
 
@@ -56,6 +56,7 @@ const CreateRequest = () => {
       <Typography
         variant="h4"
         gutterBottom
+        sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}
       >
         Create New Request
       </Typography>

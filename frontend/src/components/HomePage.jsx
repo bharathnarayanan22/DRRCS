@@ -4,6 +4,7 @@ import { TypeAnimation } from "react-type-animation";
 import { useSelector } from "react-redux";
 import styles from "./HomePage.module.css";
 
+
 const HomePage = () => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.user.token);
