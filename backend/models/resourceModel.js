@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const resourceSchema = new mongoose.Schema({
-  type: { type: String, required: true },
+  type: { type: String, required: true, unique: true },
   quantity: { type: Number, required: true },
   location: {
     lat: { type: Number, required: true },

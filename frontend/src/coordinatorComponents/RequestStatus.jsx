@@ -36,6 +36,7 @@ const RequestStatus = () => {
     startLocation: "",
     endLocation: "",
   });
+  const [actionCompleted, setActionCompleted] = useState({});
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -92,6 +93,8 @@ const RequestStatus = () => {
       );
       toast.success("Resource created successfully!");
 
+      // Mark action as completed
+      setActionCompleted(prev => ({ ...prev, [response._id]: true }));
       setNewResource({ type: "", quantity: "", location: "" });
     } catch (error) {
       console.error("Error creating resource:", error); 
@@ -127,7 +130,7 @@ const RequestStatus = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:3000/task/createTask",taskData,
+        "http://localhost:3000/task/createTask", taskData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -136,6 +139,9 @@ const RequestStatus = () => {
       );
       toast.success("Task created successfully!");
       console.log("Task created:", response.data);
+
+      // Mark action as completed for the selected request
+      setActionCompleted(prev => ({ ...prev, [selectedRequest]: true }));
     } catch (error) {
       console.error("Error creating task:", error);
       toast.error("Error creating task.");
@@ -145,21 +151,19 @@ const RequestStatus = () => {
 
   return (
     <Box>
-      <ToastContainer/>
+      <ToastContainer />
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}
+        sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight: 900, color: "#444" }}
       >
         Request Status
       </Typography>
       <TableContainer component={Paper}>
         <Table aria-label="requests table">
           <TableHead>
-            <TableRow
-              sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
-            >
-              <TableCell>ID</TableCell>
+            <TableRow sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}>
+              <TableCell>S.NO</TableCell>
               <TableCell>Type</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Location</TableCell>
@@ -180,7 +184,7 @@ const RequestStatus = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                   <img src="/src/assets/earth1.png" alt="Map"/>
+                    <img src="/src/assets/earth1.png" alt="Map" />
                   </a>
                 </TableCell>
                 <TableCell>{request.status}</TableCell>
@@ -220,9 +224,7 @@ const RequestStatus = () => {
           <TableContainer component={Paper}>
             <Table aria-label="responses table">
               <TableHead>
-                <TableRow
-                  sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
-                >
+                <TableRow sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}>
                   <TableCell>Response ID</TableCell>
                   <TableCell>Donor</TableCell>
                   <TableCell>Resource</TableCell>
@@ -242,6 +244,7 @@ const RequestStatus = () => {
                         onClick={() => handleAddResource(response)}
                         variant="contained"
                         color="primary"
+                        disabled={actionCompleted[response._id]} // Disable if action is completed
                       >
                         Add Resource
                       </Button>
@@ -255,6 +258,7 @@ const RequestStatus = () => {
                         variant="contained"
                         color="secondary"
                         sx={{ ml: 1 }}
+                        disabled={actionCompleted[selectedRequest]} // Disable if task is created
                       >
                         Create Task
                       </Button>
@@ -274,6 +278,8 @@ const RequestStatus = () => {
           </Button>
         </Box>
       </Modal>
+
+      {/* Create Task Modal */}
       <Modal
         open={openCreateTaskModal}
         onClose={handleCloseCreateTaskModal}
@@ -290,24 +296,24 @@ const RequestStatus = () => {
           }}
         >
           <Typography variant="h6" gutterBottom>
-            Create Task
+            Create Task for Response ID: {selectedRequest}
           </Typography>
+          <form onSubmit={handleSubmitTask}>
             <TextField
-              label="Type"
+              label="Description"
               name="description"
               value={taskData.description}
               onChange={handleTaskInputChange}
               fullWidth
-              margin="normal"
+              sx={{ mb: 2 }}
             />
             <TextField
-            type="number"
               label="Volunteers Needed"
               name="volunteersNeeded"
               value={taskData.volunteersNeeded}
               onChange={handleTaskInputChange}
               fullWidth
-              margin="normal"
+              sx={{ mb: 2 }}
             />
             <TextField
               label="Start Location"
@@ -315,8 +321,7 @@ const RequestStatus = () => {
               value={taskData.startLocation}
               onChange={handleTaskInputChange}
               fullWidth
-              margin="normal"
-              disabled
+              sx={{ mb: 2 }}
             />
             <TextField
               label="End Location"
@@ -324,21 +329,12 @@ const RequestStatus = () => {
               value={taskData.endLocation}
               onChange={handleTaskInputChange}
               fullWidth
-              margin="normal"
-              disabled
+              sx={{ mb: 2 }}
             />
-            <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
-              <Button
-                onClick={handleCloseCreateTaskModal}
-                variant="outlined"
-                color="primary"
-              >
-                Cancel
-              </Button>
-              <Button onClick={handleSubmitTask} type="submit" variant="contained" color="primary">
-                Create Task
-              </Button>
-            </Box>
+            <Button type="submit" variant="contained" color="primary">
+              Submit Task
+            </Button>
+          </form>
         </Box>
       </Modal>
     </Box>

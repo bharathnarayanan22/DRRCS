@@ -9,7 +9,13 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Typography, Box, TextField, Button, Grid } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { Typography, Box } from "@mui/material";
 import axios from '../helpers/auth-config';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -59,14 +65,12 @@ const Resources = () => {
   const handleEdit = (resource) => {
     setIsEditing(true);
     setEditResource(resource);
-    console.log(resource)
   };
 
   const handleUpdateResource = async (e) => {
     e.preventDefault();
 
     try {
-      console.log(editResource._id)
       const response = await axios.put(
         `http://localhost:3000/resource/updateResource/${editResource._id}`,
         editResource,
@@ -90,6 +94,10 @@ const Resources = () => {
     }
   };
 
+  const handleDialogClose = () => {
+    setIsEditing(false);
+    setEditResource(null);
+  };
 
 
   return (
@@ -109,7 +117,7 @@ const Resources = () => {
             <TableRow
               sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
             >
-              <TableCell>ID</TableCell>
+              <TableCell>S.NO</TableCell>
               <TableCell>Type</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Location</TableCell>
@@ -158,43 +166,41 @@ const Resources = () => {
         </Table>
       </TableContainer>
 
-      {isEditing && (
-        <Grid container spacing={2} sx={{ mt: 2 }}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Resource Type"
-              value={editResource.type}
-              onChange={(e) => setEditResource({ ...editResource, type: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Quantity"
-              type="number"
-              value={editResource.quantity}
-              onChange={(e) => setEditResource({ ...editResource, quantity: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Location"
-              value={editResource.location}
-              onChange={(e) => setEditResource({ ...editResource, location: e.target.value })}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" type="submit" onClick={handleUpdateResource}>
-              Update Resource
-            </Button>
-            <Button variant="contained" color="secondary" onClick={() => setIsEditing(false)}>
-              Cancel
-            </Button>
-          </Grid>
-        </Grid>
-      )}
+      <Dialog open={isEditing} onClose={handleDialogClose} fullWidth maxWidth="sm">
+        <DialogTitle>Edit Resource</DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Resource Type"
+            value={editResource?.type || ''}
+            onChange={(e) => setEditResource({ ...editResource, type: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Quantity"
+            type="number"
+            value={editResource?.quantity || ''}
+            onChange={(e) => setEditResource({ ...editResource, quantity: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Location"
+            value={editResource?.location || ''}
+            onChange={(e) => setEditResource({ ...editResource, location: e.target.value })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleUpdateResource} variant="contained" color="primary">
+            Update Resource
+          </Button>
+          <Button onClick={handleDialogClose} variant="contained" color="secondary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
 
     </Box>
   );

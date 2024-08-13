@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Typography, Box, Grid, TextField, Button } from "@mui/material";
+import { Typography, Box, TextField, Button, Modal, Grid } from "@mui/material";
 import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
@@ -56,14 +56,12 @@ const Tasks = () => {
     const handleEdit = (task) => {
         setIsEditing(true);
         setEditTask(task);
-        console.log(task)
     };
 
     const handleUpdateTask = async (e) => {
         e.preventDefault();
 
         try {
-            console.log(editTask._id)
             const response = await axios.put(
                 `http://localhost:3000/task/updateTask/${editTask._id}`,
                 editTask,
@@ -73,9 +71,6 @@ const Tasks = () => {
                     },
                 }
             );
-            // setResources(resources.map((resource) =>
-            //     resource._id === editResource._id ? response.data : resource
-            //   ));
             setTasks(tasks.map((task) =>
                 task._id === editTask._id ? response.data : task
             ));
@@ -84,7 +79,7 @@ const Tasks = () => {
             setIsEditing(false);
             setEditTask(null);
         } catch (error) {
-            console.error('Error updating resource:', error);
+            console.error('Error updating task:', error);
             toast.error(`Task Updation Failed` );
         }
     };
@@ -100,7 +95,7 @@ const Tasks = () => {
             <Typography
                 variant="h4"
                 gutterBottom
-                style={{ color: "#444", fontWeight: "bold" }}
+                sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}
             >
                 Tasks Overview
             </Typography>
@@ -108,7 +103,7 @@ const Tasks = () => {
                 <Table aria-label="tasks table">
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}>
-                            <TableCell>ID</TableCell>
+                            <TableCell>S.NO</TableCell>
                             <TableCell>Task</TableCell>
                             <TableCell>Volunteers Needed</TableCell>
                             <TableCell>Status</TableCell>
@@ -142,44 +137,58 @@ const Tasks = () => {
                 </Table>
             </TableContainer>
 
-            {isEditing && (
-                <Grid container spacing={2} sx={{ mt: 2 }}>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Description"
-                            value={editTask.description}
-                            onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
-                        />
+            {/* Modal for Editing Task */}
+            <Modal
+                open={isEditing}
+                onClose={() => setIsEditing(false)}
+                aria-labelledby="edit-task-modal"
+                aria-describedby="modal-to-edit-task"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4,
+                        borderRadius: 1,
+                    }}
+                >
+                    <Typography id="edit-task-modal" variant="h6" component="h2">
+                        Edit Task
+                    </Typography>
+                    <Grid container spacing={2} sx={{ mt: 2 }}>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Description"
+                                value={editTask?.description || ''}
+                                onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Volunteers Needed"
+                                type="number"
+                                value={editTask?.volunteersNeeded || ''}
+                                onChange={(e) => setEditTask({ ...editTask, volunteersNeeded: e.target.value })}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Button variant="contained" color="primary" onClick={handleUpdateTask}>
+                                Update Task
+                            </Button>
+                            <Button variant="contained" color="secondary" onClick={() => setIsEditing(false)}>
+                                Cancel
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Volunteers Needed"
-                            type="number"
-                            value={editTask.volunteersNeeded}
-                            onChange={(e) => setEditTask({ ...editTask, volunteersNeeded: e.target.value })}
-                        />
-                    </Grid>
-                    {/* <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Location"
-                            value={editTask.location}
-                            onChange={(e) => setEditTask({ ...editTask, location: e.target.value })}
-                        />
-                    </Grid> */}
-                    <Grid item xs={12}>
-                        <Button variant="contained" color="primary" type="submit" onClick={handleUpdateTask}>
-                            Update Resource
-                        </Button>
-                        <Button variant="contained" color="secondary" onClick={() => setIsEditing(false)}>
-                            Cancel
-                        </Button>
-                    </Grid>
-                </Grid>
-            )}
-
+                </Box>
+            </Modal>
         </Box>
     );
 };

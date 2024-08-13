@@ -572,7 +572,7 @@ export default function CoordinatorDashboard() {
             onClick={handleCloseProfile}
             variant="contained"
             color="primary"
-            sx={{ mt: 2 }}
+            sx={{ mt: 2, ml:1 }}
           >
             Close
           </Button>

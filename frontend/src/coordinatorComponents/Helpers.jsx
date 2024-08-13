@@ -101,7 +101,7 @@ const Helpers = () => {
             <TableRow
               sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}
             >
-              <TableCell>ID</TableCell>
+              <TableCell>S.NO</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Role</TableCell>
               <TableCell>Actions</TableCell>
@@ -117,8 +117,19 @@ const Helpers = () => {
                   <IconButton
                     aria-label="view profile"
                     onClick={() => handleOpenProfile(volunteer._id)}
+                    sx={{
+                      '&:hover': {
+                        color: '#333', 
+                      },
+                    }}
                   >
-                    <AccountCircleIcon />
+                    <AccountCircleIcon
+                      sx={{
+                        "&:hover": {
+                          color: "#333",
+                        },
+                      }}
+                    />
                   </IconButton>
                   <IconButton aria-label="delete">
                     <DeleteIcon
@@ -143,8 +154,19 @@ const Helpers = () => {
                   <IconButton
                     aria-label="view profile"
                     onClick={() => handleOpenProfile(donor._id)}
+                    sx={{
+                      '&:hover': {
+                        color: '#333', 
+                      },
+                    }}
                   >
-                    <AccountCircleIcon />
+                    <AccountCircleIcon
+                      sx={{
+                        "&:hover": {
+                          color: "#333",
+                        },
+                      }}
+                    />
                   </IconButton>
                   <IconButton aria-label="delete">
                     <DeleteIcon
@@ -181,6 +203,8 @@ const Helpers = () => {
             border: "2px solid #000",
             boxShadow: 24,
             p: 4,
+            mt: 1,
+            mb: 5
           }}
         >
           {selectedUserId && <UserProfilePage userId={selectedUserId} />}
@@ -188,7 +212,7 @@ const Helpers = () => {
             onClick={handleCloseProfile}
             variant="contained"
             color="primary"
-            sx={{ mt: 2 }}
+            sx={{ mt: 2 , ml:1}}
           >
             Close
           </Button>

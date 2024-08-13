@@ -83,9 +83,15 @@ const MyTasks = () => {
   return (
     <StyledContainer>
       <ToastContainer />
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         My Tasks
       </Typography>
+      {tasks.length === 0 && (
+        <Typography variant="subtitle1" sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:400, color:"#444" }}>
+          You have no tasks yet.
+        </Typography>
+      )}
+      <>
       {loading ? (
         <CircularProgress />
       ) : (
@@ -122,8 +128,10 @@ const MyTasks = () => {
               </Button>
             </StyledListItem>
           ))}
+  
         </List>
       )}
+      </>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Upload Photos for Task Completion</DialogTitle>
         <DialogContent>
@@ -136,10 +144,10 @@ const MyTasks = () => {
           <Typography variant="body1">Please upload photos of task completion:</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenDialog(false)} color="primary">
+          <Button onClick={() => setOpenDialog(false)} color="primary" sx={{'&:hover': {color: '#000', backgroundColor: '#ccc',}}}>
             Cancel
           </Button>
-          <Button onClick={handleUploadPhotos} color="primary">
+          <Button onClick={handleUploadPhotos} color="primary" sx={{'&:hover': {color: '#000', backgroundColor: '#ccc',}}}>
             Upload Photos
           </Button>
         </DialogActions>

@@ -149,12 +149,15 @@ const Tasks = () => {
       <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         Pending Tasks
       </Typography>
+      {tasks.length === 0 ? (<Typography>
+        No tasks available
+      </Typography>):(
       <TableContainer component={Paper}>
         <Table aria-label="tasks table">
           <TableHead>
             <TableRow
              sx={{ backgroundColor: "#444", "& th": { color: "#fff" } }}>
-              <TableCell>ID</TableCell>
+              <TableCell>S.NO</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Volunteers Needed</TableCell>
               <TableCell>Start Location</TableCell>
@@ -164,9 +167,9 @@ const Tasks = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.map((task) => (
+            {tasks.map((task, index) => (
               <TableRow key={task._id}>
-                <TableCell>{task._id}</TableCell>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{task.description}</TableCell>
                 <TableCell>{task.volunteersNeeded}</TableCell>
                 <TableCell><a
@@ -209,6 +212,7 @@ const Tasks = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      )}
       <ToastContainer />
     </Box>
   );
