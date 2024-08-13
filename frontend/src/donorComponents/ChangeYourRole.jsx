@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, Container, Typography, Box, CircularProgress } from '@mui/material';
 import axios from '../helpers/auth-config';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ChangeYourRole = () => {
   const [loading, setLoading] = useState(false);
@@ -16,9 +18,11 @@ const ChangeYourRole = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      await toast.success("You are Volunteer Now")
       setMessage(response.data.message);
       setLoading(false);
     } catch (error) {
+      toast.error('Role Conversion Failure')
       setMessage('Error changing role');
       setLoading(false);
     }
@@ -32,9 +36,12 @@ const ChangeYourRole = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      await toast.success("Request Sent To the Coordinator")
       setMessage(response.data.message);
+      
       setLoading(false);
     } catch (error) {
+      toast.error('Request Failed')
       setMessage('Error requesting coordinator role');
       setLoading(false);
     }
@@ -42,6 +49,7 @@ const ChangeYourRole = () => {
 
   return (
     <Container>
+      <ToastContainer/>
       <Typography variant="h4" gutterBottom>
         Change Your Role
       </Typography>

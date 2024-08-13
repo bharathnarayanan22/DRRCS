@@ -68,8 +68,8 @@ const Register = () => {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
         localStorage.setItem('username', username);
-        dispatch(setToken(token));
-        dispatch(setUserName(username));
+        await dispatch(setToken(token));
+        await dispatch(setUserName(username));
         navigate('/dashboard');
       }
     } catch (error) {

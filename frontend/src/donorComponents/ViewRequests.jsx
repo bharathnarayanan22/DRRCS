@@ -3,6 +3,8 @@ import { Box, Button, Typography, TextField, Dialog, DialogActions, DialogConten
 import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import MapPicker from "../components/MapPicker";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ViewRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -75,15 +77,18 @@ const ViewRequests = () => {
           },
         }
       );
+      await toast.success("Response submitted successfully!"); 
       console.log("Response submitted:", response.data);
       handleClose();
     } catch (err) {
       console.error("Error submitting response:", err);
+      toast.error("Error submitting response!");  
     }
   };
 
   return (
     <Box>
+      <ToastContainer/>
       <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
         View Requests
       </Typography>

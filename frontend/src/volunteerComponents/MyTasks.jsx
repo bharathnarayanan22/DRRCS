@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from "../helpers/auth-config";
 import { Container, Typography, List, ListItem, ListItemText, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, ListItemAvatar, Avatar } from '@mui/material';
 import { styled } from '@mui/system';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -64,9 +66,11 @@ const MyTasks = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         }
       });
+      await toast.success('Photos uploaded successfully!');
       setOpenDialog(false);
       setTasks(tasks.map(task => task._id === selectedTask._id ? { ...task, status: 'pending-verification' } : task));
     } catch (error) {
+      toast.error('Error uploading photos.');
       console.error('Error uploading photos:', error);
     }
   };
@@ -78,6 +82,7 @@ const MyTasks = () => {
 
   return (
     <StyledContainer>
+      <ToastContainer />
       <Typography variant="h4" gutterBottom>
         My Tasks
       </Typography>

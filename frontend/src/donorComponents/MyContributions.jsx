@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from '../helpers/auth-config';
 import { Container, Typography, List, ListItem, ListItemText, CircularProgress, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MyContributions = () => {
   const [resources, setResources] = useState([]);

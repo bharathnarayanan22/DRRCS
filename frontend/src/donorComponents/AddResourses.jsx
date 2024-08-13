@@ -4,6 +4,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import MapPicker from "../components/MapPicker";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
   palette: {
@@ -23,23 +25,40 @@ const AddResources = () => {
 
   const token = useSelector((state) => state.user.token);
 
-  // const handleGetLocation = () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         setLocation({
-  //           lat: position.coords.latitude,
-  //           lng: position.coords.longitude,
-  //         });
-  //       },
-  //       (error) => {
-  //         console.error("Error fetching location:", error);
-  //       }
-  //     );
-  //   } else {
-  //     alert("Geolocation is not supported by your browser.");
-  //   }
-  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const handleGetCurrentLocation = getLocation;
+
+    const resourceData = {
+      type,
+      quantity: Number(quantity),
+      location:{
+        lat: location.lat,
+        lng: location.lng,
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/resource/createResource",
+        resourceData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      await toast.success("Resource created successfully!");
+      console.log("Resource created:", response.data);
+      setType("");
+      setQuantity("");
+      setLocation({ lat: "", lng: "" });
+    } catch (error) {
+      console.error("Error creating resource:", error);
+      toast.error("Failed to create resource. Please try again.");
+    }
+  };
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -54,36 +73,9 @@ const AddResources = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const resourceData = {
-      type,
-      quantity: Number(quantity),
-      location,
-    };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/resource/createResource",
-        resourceData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Resource created:", response.data);
-      setType("");
-      setQuantity("");
-      setLocation({ lat: "", lng: "" });
-    } catch (error) {
-      console.error("Error creating resource:", error);
-    }
-  };
-
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer/>
       <Box>
         <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight:900, color:"#444" }}>
           Add New Resource

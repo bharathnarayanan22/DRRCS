@@ -12,6 +12,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Typography, Box, Grid, TextField, Button } from "@mui/material";
 import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Tasks = () => {
     const [tasks, setTasks] = useState([]);
@@ -43,8 +45,10 @@ const Tasks = () => {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
+            toast.success(`Task Deletion Successfull` );
             setTasks(tasks.filter((task) => task._id !== id));
         } catch (error) {
+            toast.error(`Task Deletion Failed` );
             console.error("Error deleting task:", error);
         }
     };
@@ -75,11 +79,13 @@ const Tasks = () => {
             setTasks(tasks.map((task) =>
                 task._id === editTask._id ? response.data : task
             ));
+            toast.success(`Task Updation Successfull` );
 
             setIsEditing(false);
             setEditTask(null);
         } catch (error) {
             console.error('Error updating resource:', error);
+            toast.error(`Task Updation Failed` );
         }
     };
 
@@ -90,6 +96,7 @@ const Tasks = () => {
 
     return (
         <Box>
+            <ToastContainer/>
             <Typography
                 variant="h4"
                 gutterBottom

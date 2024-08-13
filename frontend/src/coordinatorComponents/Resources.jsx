@@ -11,6 +11,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Typography, Box, TextField, Button, Grid } from "@mui/material";
 import axios from '../helpers/auth-config';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Resources = () => {
@@ -46,8 +48,10 @@ const Resources = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+      toast.success(`Resource Deletion Successfull` );
       setResources(resources.filter((resource) => resource._id !== id));
     } catch (error) {
+      toast.error(`Resource Deletion Failed` );
       console.error("Error deleting task:", error);
     }
   };
@@ -72,6 +76,7 @@ const Resources = () => {
           },
         }
       );
+      toast.success(`Resource Update Successfull` );
 
       setResources(resources.map((resource) =>
         resource._id === editResource._id ? response.data : resource
@@ -80,6 +85,7 @@ const Resources = () => {
       setIsEditing(false);
       setEditResource(null);
     } catch (error) {
+      toast.error(`Resource Update Failed` );
       console.error('Error updating resource:', error);
     }
   };
@@ -88,6 +94,7 @@ const Resources = () => {
 
   return (
     <Box>
+      <ToastContainer/>
       <Typography
         variant="h4"
         gutterBottom

@@ -56,7 +56,7 @@ const BecomeACo = () => {
       });
 
       // Show a success toast
-      toast.success(`Request ${status === 'approved' ? 'approved' : 'rejected'} successfully!`);
+      await toast.success(`Request ${status === 'approved' ? 'approved' : 'rejected'} successfully!`);
     } catch (error) {
       console.error(`Error updating status to ${status}:`, error);
 

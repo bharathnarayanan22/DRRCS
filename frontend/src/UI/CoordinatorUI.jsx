@@ -39,6 +39,11 @@ import CardContent from "@mui/material/CardContent";
 import logo1 from "../assets/logo.png";
 import TaskVerificationPage from "../coordinatorComponents/TaskVerificationPage";
 import { useSelector } from 'react-redux';
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import UserProfilePage from "../coordinatorComponents/UserProfile";
+import { Modal, Button } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -108,6 +113,8 @@ const theme = createTheme({
 export default function CoordinatorDashboard() {
   const [open, setOpen] = useState(false);
   const [selectedView, setSelectedView] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const username = useSelector((state) => state.user.username);
   console.log(username)
 
@@ -132,8 +139,24 @@ export default function CoordinatorDashboard() {
     navigate("/register");
   };
 
+  const handleOpenProfile = (userId) => {
+    setSelectedUserId(userId);
+    setModalOpen(true);
+  };
+
+  const handleCloseProfile = () => {
+    setSelectedUserId(null);
+    setModalOpen(false);
+  };
+
+  const selectedStyle = {
+    backgroundColor: "#444",
+    color: "white",
+  };
+
   return (
     <ThemeProvider theme={theme}>
+      {/* <ToastContainer/> */}
       <div
         style={{
           backgroundImage: `url(${logo1})`,
@@ -165,9 +188,10 @@ export default function CoordinatorDashboard() {
               Coordinator Dashboard
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-              <Typography variant="body1" color="white">
-                {username}
-              </Typography>
+            <AccountCircleIcon sx={{ marginRight: 1 }} onClick={() => handleOpenProfile(localStorage.getItem('userId'))}/> 
+            <Typography variant="body1" color="white">
+              {localStorage.getItem('username')}
+            </Typography>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -200,6 +224,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "View Helpers" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -212,6 +237,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "View Tasks" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -224,6 +250,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "Create Tasks" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -236,6 +263,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "Verify Tasks" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -248,6 +276,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "View Resources" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -260,6 +289,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "Send Requests" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -272,6 +302,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "Responses" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -284,6 +315,7 @@ export default function CoordinatorDashboard() {
                 sx={{
                   "&:hover": { backgroundColor: "#444", color: "white" },
                   gap: "32px",
+                  ...(selectedView === "Become a Co" && selectedStyle),
                 }}
               >
                 {/* <StyledListItemIcon> */}
@@ -516,6 +548,36 @@ export default function CoordinatorDashboard() {
           {selectedView === "Become a Co" && <BecomeACo />}
           {selectedView === "Verify Tasks" && <TaskVerificationPage />}
         </Main>
+        <Modal
+        open={modalOpen}
+        onClose={handleCloseProfile}
+        aria-labelledby="user-profile-modal"
+        aria-describedby="user-profile-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 600,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          {selectedUserId && <UserProfilePage userId={selectedUserId} />}
+          <Button
+            onClick={handleCloseProfile}
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Close
+          </Button>
+        </Box>
+      </Modal>
       </Box>
     </ThemeProvider>
   );

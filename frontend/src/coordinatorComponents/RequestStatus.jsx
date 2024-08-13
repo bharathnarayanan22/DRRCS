@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import axios from '../helpers/auth-config';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RequestStatus = () => {
   const [requests, setRequests] = useState([]);
@@ -88,10 +90,12 @@ const RequestStatus = () => {
           },
         }
       );
+      toast.success("Resource created successfully!");
 
       setNewResource({ type: "", quantity: "", location: "" });
     } catch (error) {
-      console.error("Error creating resource:", error);
+      console.error("Error creating resource:", error); 
+      toast.error("Error creating resource.");
     }
   };
 
@@ -130,15 +134,18 @@ const RequestStatus = () => {
           },
         }
       );
+      toast.success("Task created successfully!");
       console.log("Task created:", response.data);
     } catch (error) {
       console.error("Error creating task:", error);
+      toast.error("Error creating task.");
     }
     handleCloseCreateTaskModal(); 
   };
 
   return (
     <Box>
+      <ToastContainer/>
       <Typography
         variant="h4"
         gutterBottom

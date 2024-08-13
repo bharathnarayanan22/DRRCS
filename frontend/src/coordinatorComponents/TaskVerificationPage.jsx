@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from "../helpers/auth-config";
 import { Box, Typography, Button, Card, CardContent, CardMedia, CircularProgress } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskVerificationPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -30,8 +32,10 @@ const TaskVerificationPage = () => {
       await axios.put(`http://localhost:3000/task/updateTaskStatus/${taskId}`, {}, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } 
       });
+      toast.success(`Task Verification Successfull` );
       setTasks(tasks.filter(task => task._id !== taskId));
     } catch (error) {
+      toast.error(`Task verification Failed` );
       setError('Failed to update task');
       console.error(error);
     }
@@ -42,6 +46,7 @@ const TaskVerificationPage = () => {
 
   return (
     <Box padding={2}>
+      <ToastContainer/>
       <Typography variant="h4" gutterBottom>Task Verification</Typography>
       {tasks.length === 0 ? (
         <Typography>No tasks pending verification</Typography>

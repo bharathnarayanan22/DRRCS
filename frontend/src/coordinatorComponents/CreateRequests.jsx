@@ -3,6 +3,8 @@ import { TextField, Button, Typography, Box } from "@mui/material";
 import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import MapPicker from "../components/MapPicker";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateRequest = () => {
   const [type, setType] = useState("");
@@ -31,9 +33,13 @@ const CreateRequest = () => {
           },
         }
       );
+      toast.success("Request created successfully!")
       console.log("Request created:", response.data);
-      // Optionally clear the form or handle success
+      setType("");
+      setQuantity("");
+      setLocation(null);
     } catch (error) {
+      toast.error("Error creating request!")
       console.error("Error creating request:", error);
     }
   };
@@ -53,6 +59,7 @@ const CreateRequest = () => {
 
   return (
     <Box>
+      <ToastContainer/>
       <Typography
         variant="h4"
         gutterBottom
@@ -77,7 +84,7 @@ const CreateRequest = () => {
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
         />
-        <Button variant="contained" onClick={getLocation} sx={{ backgroundColor: "#444", color: "#fff", mt: 2, ":hover": { backgroundColor: "#333" } }}>
+        <Button variant="contained" onClick={getLocation} sx={{ backgroundColor: "#444", color: "#fff", mt: 2, mb:2, ":hover": { backgroundColor: "#333" } }}>
   Get My Location
 </Button>
         <MapPicker location={location} setLocation={setLocation} />

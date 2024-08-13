@@ -50,6 +50,7 @@ const Tasks = () => {
           },
         }
       );
+
       console.log(acceptedTasks);
 
       // if (acceptedTasks.length > 0) {

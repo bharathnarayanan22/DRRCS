@@ -4,6 +4,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import axios from '../helpers/auth-config';
 import { useSelector } from "react-redux";
 import MapPicker from "../components/MapPicker";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
   palette: {
@@ -44,15 +46,22 @@ const CreateTask = () => {
           },
         }
       );
+      toast.success(`Task Creation Successfull` );
       console.log("Task created:", response.data);
+      setDescription("");
+      setVolunteersNeeded("");
+      setStartLocation("");
+      setEndLocation("");
       // Optionally clear the form or handle success
     } catch (error) {
       console.error("Error creating task:", error);
+      toast.error(`Task Creation Failed` );
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer/>
     <Box>
       <Typography
         variant="h4"

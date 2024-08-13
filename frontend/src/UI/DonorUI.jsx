@@ -29,6 +29,9 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import logo1 from "../assets/logo.png";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import UserProfilePage from "../coordinatorComponents/UserProfile";
+import { Modal, Button } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -98,6 +101,8 @@ const theme = createTheme({
 export default function CoordinatorDashboard() {
     const [open, setOpen] = useState(false);
     const [selectedView, setSelectedView] = useState(null);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -117,6 +122,16 @@ export default function CoordinatorDashboard() {
         navigate("/register");
     };
 
+    const handleOpenProfile = (userId) => {
+        setSelectedUserId(userId);
+        setModalOpen(true);
+      };
+    
+      const handleCloseProfile = () => {
+        setSelectedUserId(null);
+        setModalOpen(false);
+      };
+
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ display: "flex", minHeight: "100vh" }}>
@@ -134,6 +149,11 @@ export default function CoordinatorDashboard() {
                         </IconButton>
                         <Typography variant="h6" noWrap component="div" color="white">
                             Donor Dashboard
+                        </Typography>
+                        <Box sx={{ flexGrow: 1 }} />
+                        <AccountCircleIcon sx={{ marginRight: 1 }} onClick={() => handleOpenProfile(localStorage.getItem('userId'))}/>
+                        <Typography variant="body1" color="white">
+                            {localStorage.getItem('username')}
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -230,7 +250,7 @@ export default function CoordinatorDashboard() {
                 <Main open={open}>
                     <DrawerHeader />
                     {selectedView === null && (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: 10, padding: 4, alignItems:"center" , alignContent:"center", height:"500px"}}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: 10, padding: 4, alignItems: "center", alignContent: "center", height: "500px" }}>
                             <Card sx={{ backgroundColor: '#444', width: '20%', borderRadius: 5 }} onClick={() => handleMenuItemClick("View Requests")}>
                                 <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <VisibilityIcon sx={{ fontSize: 125, color: 'white' }} />
@@ -270,6 +290,36 @@ export default function CoordinatorDashboard() {
                     {selectedView === 'MyContributions' && <MyContributions />}
                     {selectedView === 'Change your Role' && <ChangeYourRole />}
                 </Main>
+                <Modal
+        open={modalOpen}
+        onClose={handleCloseProfile}
+        aria-labelledby="user-profile-modal"
+        aria-describedby="user-profile-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 600,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          {selectedUserId && <UserProfilePage userId={selectedUserId} />}
+          <Button
+            onClick={handleCloseProfile}
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Close
+          </Button>
+        </Box>
+      </Modal>
             </Box>
         </ThemeProvider>
     );
