@@ -91,37 +91,6 @@ const Tasks = () => {
       toast.error("Error accepting task.");
     }
   };
-  //   const handleAccept = async (id) => {
-  //     try {
-  //         // Fetch all tasks assigned to the user
-  //         const { data: tasks } = await axios.get("http://localhost:3000/task/acceptedTasks", {
-  //             headers: {
-  //                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //             },
-  //         });
-
-  //         // Check if any tasks are still pending or in-progress
-  //         const hasActiveTasks = tasks.some(task => task.status === 'pending' || task.status === 'in-progress');
-
-  //         if (hasActiveTasks) {
-  //             toast.error("You have active tasks. Complete them before accepting a new task.");
-  //             return;
-  //         }
-
-  //         // Accept the new task
-  //         const response = await axios.put(`http://localhost:3000/task/acceptTask/${id}`, {}, {
-  //             headers: {
-  //                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //             },
-  //         });
-
-  //         setAcceptedTask(response.data.task);
-  //         setTasks(tasks.map(task => task._id === id ? { ...task, status: 'accepted' } : task));
-  //         toast.success("You are assigned to the task!");
-  //     } catch (error) {
-  //         toast.error("Error accepting task.");
-  //     }
-  // };
 
   const handleDecline = async (id) => {
     try {

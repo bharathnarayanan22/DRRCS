@@ -29,28 +29,6 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const apiUrl = isSignUp ? 'http://localhost:3000/users/register' : 'http://localhost:3000/users/login';
-  //   const requestData = { name, email, password, role };
-
-  //   try {
-  //     const response = await axios.post(apiUrl, requestData);
-
-  //     if (isSignUp) {
-  //       console.log(response.data.message);
-  //       setFormData({ ...formData, isSignUp: false });
-  //     } else {
-  //       const { token, userId } = response.data;
-  //       localStorage.setItem('token', token);
-  //       localStorage.setItem('userId', userId);
-  //       navigate('/dashboard');
-  //     }
-  //   } catch (error) {
-  //     console.error(`${isSignUp ? 'Signup' : 'Login'} failed:`, error);
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -52,7 +52,6 @@ const CreateTask = () => {
       setVolunteersNeeded("");
       setStartLocation("");
       setEndLocation("");
-      // Optionally clear the form or handle success
     } catch (error) {
       console.error("Error creating task:", error);
       toast.error(`Task Creation Failed` );

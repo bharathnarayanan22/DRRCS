@@ -40,7 +40,6 @@ const BecomeACo = () => {
   }, [token]);
 
   const handleUpdateStatus = async (requestId, status) => {
-    // Optimistically update the local state before making the API call
     setApplications((prevApplications) =>
       prevApplications.map((app) =>
         app._id === requestId ? { ...app, applicationStatus: status } : app
@@ -48,7 +47,6 @@ const BecomeACo = () => {
     );
 
     try {
-      // Send the status update to the backend
       await axios.post(
         "http://localhost:3000/change-role/handle-request",
         {
@@ -62,7 +60,6 @@ const BecomeACo = () => {
         }
       );
 
-      // Show a success toast
       await toast.success(
         `Request ${
           status === "approved" ? "approved" : "rejected"
@@ -71,14 +68,12 @@ const BecomeACo = () => {
     } catch (error) {
       console.error(`Error updating status to ${status}:`, error);
 
-      // Revert state if the API call fails
       setApplications((prevApplications) =>
         prevApplications.map((app) =>
           app._id === requestId ? { ...app, applicationStatus: "pending" } : app
         )
       );
 
-      // Show an error toast
       toast.error(
         `Failed to ${
           status === "approved" ? "approve" : "reject"

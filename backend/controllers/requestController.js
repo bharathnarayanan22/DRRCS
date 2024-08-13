@@ -26,30 +26,7 @@ const getRequests = async (req, res) => {
   }
 };
 
-// const respondToRequest = async (req, res) => {
-//   const { requestId } = req.params;
-//   const { resourceId, message } = req.body;
-//   const donor = req.user._id;
 
-//   try {
-//     const request = await Request.findById(requestId);
-//     if (!request) {
-//       return res.status(404).json({ message: 'Request not found' });
-//     }
-
-//     const response = new Response({ requestId, donor, resource: resourceId, message });
-//     await response.save();
-
-//     request.responses.push(response._id);
-//     request.status = 'accepted'; // Update the request status to 'accepted'
-//     await request.save();
-
-//     res.json(response);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server error');
-//   }
-// };
 const respondToRequest = async (req, res) => {
   const { requestId } = req.params;
   const { type, quantity, location, message } = req.body;

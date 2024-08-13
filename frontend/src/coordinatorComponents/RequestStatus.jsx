@@ -75,6 +75,7 @@ const RequestStatus = () => {
         type: response.resource?.type,
         quantity: response.resource?.quantity,
         location: response.resource?.location,
+        id : selectedRequest
       };
 
       if (!resource.type || !resource.quantity || !resource.location) {
@@ -93,7 +94,6 @@ const RequestStatus = () => {
       );
       toast.success("Resource created successfully!");
 
-      // Mark action as completed
       setActionCompleted(prev => ({ ...prev, [response._id]: true }));
       setNewResource({ type: "", quantity: "", location: "" });
     } catch (error) {
@@ -140,7 +140,6 @@ const RequestStatus = () => {
       toast.success("Task created successfully!");
       console.log("Task created:", response.data);
 
-      // Mark action as completed for the selected request
       setActionCompleted(prev => ({ ...prev, [selectedRequest]: true }));
     } catch (error) {
       console.error("Error creating task:", error);
@@ -202,7 +201,6 @@ const RequestStatus = () => {
         </Table>
       </TableContainer>
 
-      {/* Responses Modal */}
       <Modal
         open={openResponsesModal}
         onClose={handleCloseResponsesModal}
@@ -219,7 +217,7 @@ const RequestStatus = () => {
           }}
         >
           <Typography variant="h6" gutterBottom>
-            Responses for Request ID: {selectedRequest}
+            Responses
           </Typography>
           <TableContainer component={Paper}>
             <Table aria-label="responses table">
@@ -244,7 +242,7 @@ const RequestStatus = () => {
                         onClick={() => handleAddResource(response)}
                         variant="contained"
                         color="primary"
-                        disabled={actionCompleted[response._id]} // Disable if action is completed
+                        disabled={actionCompleted[response._id]} 
                       >
                         Add Resource
                       </Button>
@@ -258,7 +256,7 @@ const RequestStatus = () => {
                         variant="contained"
                         color="secondary"
                         sx={{ ml: 1 }}
-                        disabled={actionCompleted[selectedRequest]} // Disable if task is created
+                        disabled={actionCompleted[selectedRequest]} 
                       >
                         Create Task
                       </Button>
@@ -279,7 +277,6 @@ const RequestStatus = () => {
         </Box>
       </Modal>
 
-      {/* Create Task Modal */}
       <Modal
         open={openCreateTaskModal}
         onClose={handleCloseCreateTaskModal}

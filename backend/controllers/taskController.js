@@ -119,24 +119,6 @@ exports.declineTask = async (req, res) => {
   }
 }
 
-// exports.declineTask = async (req, res) => {
-//   try {
-//     const taskId = req.params.taskId;
-//     const task = await Task.findById(taskId);
-
-//     if (!task) {
-//       return res.status(404).json({ message: 'Task not found' });
-//     }
-
-//     task.status = 'declined';
-//     await task.save();
-
-//     res.status(200).json({ message: 'Task declined successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error declining task', error: error.message });
-//   }
-// };
-
 exports.getTasks = async (req, res) => {
   try {
     const tasks = await Task.find().populate('coordinator', ['name', 'email']);

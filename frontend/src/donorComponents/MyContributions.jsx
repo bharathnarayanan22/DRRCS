@@ -23,7 +23,6 @@ const MyContributions = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch resources
         const resourceResponse = await axios.get('http://localhost:3000/resource/myResources', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,7 +30,6 @@ const MyContributions = () => {
         });
         setResources(resourceResponse.data);
 
-        // Fetch responses
         const responseResponse = await axios.get('http://localhost:3000/response/myResponses', {
           headers: {
             Authorization: `Bearer ${token}`,

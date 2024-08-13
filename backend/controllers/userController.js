@@ -29,28 +29,6 @@ const register = async (req, res) => {
   }
 };
 
-// const login = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     const isPasswordValid = await bcrypt.compare(password, user.password);
-//     if (!isPasswordValid) {
-//       return res.status(401).json({ message: 'Invalid credentials' });
-//     }
-
-//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-//       expiresIn: '24h'  // 3 hour expiry time
-//     });
-//     res.json({ token });
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -161,8 +139,7 @@ const userProfile = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    
-    // Calculate statistics here if needed
+
     const stats = {
       taskCount: user.tasks.length,
       responseCount: user.responses.length,
@@ -179,7 +156,6 @@ const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    // Find the user by ID and delete
     const user = await User.findByIdAndDelete(userId);
 
     if (!user) {
@@ -192,6 +168,5 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 module.exports = { register, login, getVolunteers, getDonors, getVolunteersAndDonors, getUserRole, getUserProfile, deleteUser, userProfile };
