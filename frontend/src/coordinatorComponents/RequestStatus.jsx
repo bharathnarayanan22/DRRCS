@@ -216,7 +216,7 @@ const RequestStatus = () => {
             overflow: "auto",
           }}
         >
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight: 900, color: "#444" }}>
             Responses
           </Typography>
           <TableContainer component={Paper}>
@@ -292,10 +292,9 @@ const RequestStatus = () => {
             overflow: "auto",
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            Create Task for Response ID: {selectedRequest}
+          <Typography variant="h6" gutterBottom sx={{ fontFamily: 'Playfair Display', fontStyle: 'italic', fontWeight: 900, color: "#444" }}>
+            Create Task
           </Typography>
-          <form onSubmit={handleSubmitTask}>
             <TextField
               label="Description"
               name="description"
@@ -328,10 +327,9 @@ const RequestStatus = () => {
               fullWidth
               sx={{ mb: 2 }}
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" onSubmit={handleSubmitTask}>
               Submit Task
             </Button>
-          </form>
         </Box>
       </Modal>
     </Box>
